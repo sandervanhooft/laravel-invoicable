@@ -42,7 +42,7 @@ class AbstractTestCase extends AbstractPackageTestCase
     {
         include_once __DIR__.'/CreateTestModelsTable.php';
         (new \CreateTestModelsTable())->up();
-        include_once __DIR__.'/../database/migrations/2017_06_17_163005_create_invoices_table.php';
-        (new \CreateInvoicesTable())->up();
+        include_once __DIR__.'/../database/migrations/2017_06_17_163005_create_invoices_tables.php';
+        (new \CreateInvoicesTables())->up();
     }
 }

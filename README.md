@@ -53,7 +53,6 @@ $ composer test
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
 
 ### To do's:
-- invoice lines
 - blade view
 - invoice line discounts (amount / percentage)
 - invoice total discounts (amount / percentage)
