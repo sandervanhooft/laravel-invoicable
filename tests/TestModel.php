@@ -9,7 +9,7 @@ class TestModel extends Model
 {
     protected $guarded = [];
 
-    public function invoices ()
+    public function invoices()
     {
         return $this->morphMany(Invoice::class, 'invoicable');
     }

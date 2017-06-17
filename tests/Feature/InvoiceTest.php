@@ -10,7 +10,7 @@ class InvoiceTest extends AbstractTestCase
 {
     use DatabaseMigrations;
 
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->testModel = new TestModel();
@@ -18,7 +18,7 @@ class InvoiceTest extends AbstractTestCase
     }
 
     /** @test */
-    public function can_create_invoice()
+    public function canCreateInvoice()
     {
         $invoice = $this->testModel->invoices()->create([])->fresh();
 
@@ -29,7 +29,7 @@ class InvoiceTest extends AbstractTestCase
     }
 
     /** @test */
-    public function can_add_amount_excl_tax_to_invoice()
+    public function canAddAmountExclTaxToInvoice()
     {
         $invoice = $this->testModel->invoices()->create([])->fresh();
         
@@ -41,7 +41,7 @@ class InvoiceTest extends AbstractTestCase
     }
 
     /** @test */
-    public function can_add_amount_incl_tax_to_invoice()
+    public function canAddAmountInclTaxToInvoice()
     {
         $invoice = $this->testModel->invoices()->create([])->fresh();
         
@@ -51,5 +51,4 @@ class InvoiceTest extends AbstractTestCase
         $this->assertEquals("242", (string) $invoice->total);
         $this->assertEquals("42", (string) $invoice->tax);
     }
-
 }
