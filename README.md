@@ -5,21 +5,17 @@
 [![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+DESCRIPTION: __WORK IN PROGRESS!__
 
 ## Structure
 
-If any of the following are applicable to your project, then the directory structure should follow industry best practises by being named the following.
-
 ```
-bin/        
-config/
+database/
+resources
 src/
 tests/
 vendor/
 ```
-
 
 ## Install
 
@@ -29,11 +25,72 @@ Via Composer
 $ composer require sander-van-hooft/laravel-invoicable
 ```
 
-## Usage
+Next, you must install the service provider:
 
 ``` php
-$skeleton = new SanderVanHooft\Invoicable();
-echo $skeleton->echoPhrase('Hello, League!');
+// config/app.php
+'providers' => [
+    ...
+    SanderVanHooft\PayableRedirect\InvoicableServiceProvider::class,
+];
+```
+
+You can publish the migration with:
+
+``` bash
+$ php artisan vendor:publish --provider="SanderVanHooft\PayableRedirect\InvoicableServiceProvider" --tag="migrations"
+```
+
+After the migration has been published you can create the invoices and invoice_lines tables by running the migrations:
+
+``` bash
+$ php artisan migrate
+```
+
+## Usage
+
+__Money figures are in cents!__
+
+Add the invoicable trait to the Eloquent model which needs to be invoiced (typically an Order model):
+
+``` php
+use Illuminate\Database\Eloquent\Model;
+use SanderVanHooft\Invoicable\IsInvoicable\IsInvoicableTrait;
+
+class Order extends Model
+{
+    use IsInvoicableTrait; // enables the ->invoices() Eloquent relationship
+}
+```
+
+Now you can create invoices for an Order:
+``` php
+$order = new Order();
+$invoice = $order->invoices()->create([]);
+
+// To add a line to the invoice, use these example parameters:
+//  Amount:
+//      121 (€1,21) incl tax
+//      100 (€1,00) excl tax
+//  Description: 'Some description'
+//  Tax percentage: 0.21 (21%)
+$invoice = $invoice->addAmountInclTax(121, 'Some description', 0.21);
+$invoice = $invoice->addAmountExclTax(100, 'Some description', 0.21);
+
+// Invoice totals are now updated
+echo $invoice->total; // 242
+echo $invoice->tax; // 42
+
+// Set additional information (optional)
+$invoice->status; // defaults to 'concept'
+$invoice->buyer_information; // defaults to null
+$invoice->seller_information; // defaults to null
+$invoice->payment_information; // defaults to null
+$invoice->note; // defaults to null
+
+// access individual invoice lines using Eloquent relationship
+$invoice->lines;
+$invoice->lines();
 ```
 
 ## Change log
@@ -51,10 +108,10 @@ $ composer test
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
 
 ### To do's:
-- blade view
-- invoice line discounts (amount / percentage)
-- invoice total discounts (amount / percentage)
-- pdf generation
+[ ] invoice default status via config instead of migration
+[ ] save unique invoice reference number (YYYYMMDDXXXX) upon creation
+[ ] blade view
+[ ] pdf generation (based on blade view)
 
 ## Security
 

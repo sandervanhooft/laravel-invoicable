@@ -3,14 +3,11 @@
 namespace SanderVanHooft\Invoicable;
 
 use Illuminate\Database\Eloquent\Model;
-use SanderVanHooft\Invoicable\Invoice;
+use SanderVanHooft\Invoicable\IsInvoicable\IsInvoicableTrait;
 
 class TestModel extends Model
 {
-    protected $guarded = [];
+    use IsInvoicableTrait;
 
-    public function invoices()
-    {
-        return $this->morphMany(Invoice::class, 'invoicable');
-    }
+    protected $guarded = [];
 }
