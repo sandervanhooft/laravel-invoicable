@@ -83,8 +83,8 @@ echo $invoice->tax; // 42
 
 // Set additional information (optional)
 $invoice->status; // defaults to 'concept'
-$invoice->buyer_information; // defaults to null
-$invoice->seller_information; // defaults to null
+$invoice->receiver_information; // defaults to null
+$invoice->sender_information; // defaults to null
 $invoice->payment_information; // defaults to null
 $invoice->note; // defaults to null
 
@@ -108,7 +108,6 @@ $ composer test
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
 
 ### To do's:
-[ ] invoice default status via config instead of migration
 [ ] save unique invoice reference number (YYYYMMDDXXXX) upon creation
 [ ] blade view
 [ ] pdf generation (based on blade view)

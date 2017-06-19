@@ -20,8 +20,8 @@ class CreateInvoicesTables extends Migration
             $table->integer('total')->default(0)->description('in cents');
             $table->char('currency', 3)->default('EUR');
             $table->char('status', 16)->default('concept')->nullable();
-            $table->text('buyer_info')->nullable();
-            $table->text('seller_info')->nullable();
+            $table->text('receiver_info')->nullable();
+            $table->text('sender_info')->nullable();
             $table->text('payment_info')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
