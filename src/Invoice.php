@@ -50,4 +50,15 @@ class Invoice extends Model
         $this->save();
         return $this;
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model)
+        {
+            $model->currency = config('invoicable.default_currency', 'EUR');
+            $model->status = config('invoicable.default_status', 'concept');
+        });
+    }
 }

@@ -82,7 +82,8 @@ echo $invoice->total; // 242
 echo $invoice->tax; // 42
 
 // Set additional information (optional)
-$invoice->status; // defaults to 'concept'
+$invoice->currency; // defaults to 'EUR' (see config file)
+$invoice->status; // defaults to 'concept' (see config file)
 $invoice->receiver_information; // defaults to null
 $invoice->sender_information; // defaults to null
 $invoice->payment_information; // defaults to null

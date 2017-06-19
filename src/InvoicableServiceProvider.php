@@ -14,9 +14,9 @@ class InvoicableServiceProvider extends ServiceProvider
     public function boot()
     {
         // Publish a config file
-        // $this->publishes([
-        //     __DIR__.'/../config/invoicable.php' => config_path('invoicable.php'),
-        // ], 'config');
+        $this->publishes([
+            __DIR__.'/../config/invoicable.php' => config_path('invoicable.php'),
+        ], 'config');
 
         // Publish migrations
          $this->publishes([
@@ -35,6 +35,6 @@ class InvoicableServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(__DIR__.'/../config/invoicable.php', 'invoicable');
     }
 }
