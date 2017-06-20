@@ -19,6 +19,7 @@ class CreateInvoicesTables extends Migration
             $table->integer('tax')->default(0)->description('in cents');
             $table->integer('total')->default(0)->description('in cents');
             $table->char('currency', 3);
+            $table->char('reference', 17);
             $table->char('status', 16)->nullable();
             $table->text('receiver_info')->nullable();
             $table->text('sender_info')->nullable();

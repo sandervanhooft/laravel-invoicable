@@ -109,7 +109,6 @@ $ composer test
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
 
 ### To do's:
-[ ] save unique invoice reference number (YYYYMMDDXXXX) upon creation
 [ ] blade view
 [ ] pdf generation (based on blade view)
 

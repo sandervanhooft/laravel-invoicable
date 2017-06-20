@@ -59,6 +59,7 @@ class Invoice extends Model
         {
             $model->currency = config('invoicable.default_currency', 'EUR');
             $model->status = config('invoicable.default_status', 'concept');
+            $model->reference = InvoiceReferenceGenerator::generate();
         });
     }
 }
