@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Invoice</title>
+    <title>Receipt</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -59,9 +59,9 @@
                 &nbsp;
             </td>
 
-            <!-- Organization Name / Image -->
+            <!-- Sender information -->
             <td align="right">
-                <strong>{{ $header or $vendor }}</strong>
+                <strong>{{ $invoice->sender_info }}</strong>
             </td>
         </tr>
         <tr valign="top">
@@ -69,44 +69,20 @@
                     Receipt
             </td>
 
-            <!-- Organization Name / Date -->
+            <!-- Receiver information -->
             <td>
                 <br><br>
-                <strong>To:</strong> {{ $owner->email ?: $owner->name }}
+                <strong>To:</strong> {{ $invoice->receiver_info }}
                 <br>
-                <strong>Date:</strong> {{ $invoice->date()->toFormattedDateString() }}
+                <strong>Date:</strong> {{ $invoice->created_at }}
             </td>
         </tr>
         <tr valign="top">
-            <!-- Organization Details -->
-            <td style="font-size:9px;">
-                {{ $vendor }}<br>
-                @if (isset($street))
-                    {{ $street }}<br>
-                @endif
-                @if (isset($location))
-                    {{ $location }}<br>
-                @endif
-                @if (isset($phone))
-                    <strong>T</strong> {{ $phone }}<br>
-                @endif
-                @if (isset($url))
-                    <a href="{{ $url }}">{{ $url }}</a>
-                @endif
-            </td>
             <td>
                 <!-- Invoice Info -->
                 <p>
-                    <strong>Product:</strong> {{ $product }}<br>
-                    <strong>Invoice Number:</strong> {{ $id or $invoice->id }}<br>
+                    <strong>Invoice Reference:</strong> {{ $invoice->reference }}<br>
                 </p>
-
-                <!-- Extra / VAT Information -->
-                @if (isset($vat))
-                    <p>
-                        {{ $vat }}
-                    </p>
-                @endif
 
                 <br><br>
 
@@ -116,64 +92,42 @@
                         <th align="left">Description</th>
                         <th align="right">Date</th>
                         <th align="right">Amount</th>
-                    </tr>
-
-                    <!-- Existing Balance -->
-                    <tr>
-                        <td>Starting Balance</td>
-                        <td>&nbsp;</td>
-                        <td>{{ $invoice->startingBalance() }}</td>
+                        <th align="right">Tax %</th>
                     </tr>
 
                     <!-- Display The Invoice Items -->
-                    @foreach ($invoice->invoiceItems() as $item)
+                    @foreach ($invoice->lines as $line)
                         <tr>
-                            <td colspan="2">{{ $item->description }}</td>
-                            <td>{{ $item->total() }}</td>
+                            <td colspan="2">{{ $line->description }}</td>
+                            <td>{{ $line->amount }}</td>
+                            <td>{{ $line->tax_percentage * 100 }}%</td>
                         </tr>
                     @endforeach
-
-                    <!-- Display The Subscriptions -->
-                    @foreach ($invoice->subscriptions() as $subscription)
-                        <tr>
-                            <td>Subscription ({{ $subscription->quantity }})</td>
-                            <td>
-                                {{ $subscription->startDateAsCarbon()->formatLocalized('%B %e, %Y') }} -
-                                {{ $subscription->endDateAsCarbon()->formatLocalized('%B %e, %Y') }}
-                            </td>
-                            <td>{{ $subscription->total() }}</td>
-                        </tr>
-                    @endforeach
-
-                    <!-- Display The Discount -->
-                    @if ($invoice->hasDiscount())
-                        <tr>
-                            @if ($invoice->discountIsPercentage())
-                                <td>{{ $invoice->coupon() }} ({{ $invoice->percentOff() }}% Off)</td>
-                            @else
-                                <td>{{ $invoice->coupon() }} ({{ $invoice->amountOff() }} Off)</td>
-                            @endif
-                            <td>&nbsp;</td>
-                            <td>-{{ $invoice->discount() }}</td>
-                        </tr>
-                    @endif
-
-                    <!-- Display The Tax Amount -->
-                    @if ($invoice->tax_percent)
-                        <tr>
-                            <td>Tax ({{ $invoice->tax_percent }}%)</td>
-                            <td>&nbsp;</td>
-                            <td>{{ Laravel\Cashier\Cashier::formatAmount($invoice->tax) }}</td>
-                        </tr>
-                    @endif
 
                     <!-- Display The Final Total -->
                     <tr style="border-top:2px solid #000;">
                         <td>&nbsp;</td>
                         <td style="text-align: right;"><strong>Total</strong></td>
-                        <td><strong>{{ $invoice->total() }}</strong></td>
+                        <td><strong>{{ $invoice->currency }} {{ $invoice->total }}</strong></td>
+                    </tr>
+
+                    <!-- Display The Tax specification -->
+                    <tr>
+                        <td colspan="2">Included tax</td>
+                        <td>&nbsp;</td>
+                        <td>{{ $invoice->tax }}</td>
                     </tr>
                 </table>
+            </td>
+        </tr>
+        <tr>
+            <td width="160">
+                &nbsp;
+            </td>
+
+            <!-- Note -->
+            <td align="right">
+                <strong>{{ $invoice->note }}</strong>
             </td>
         </tr>
     </table>

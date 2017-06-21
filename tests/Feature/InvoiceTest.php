@@ -57,11 +57,20 @@ class InvoiceTest extends AbstractTestCase
     /** @test */
     public function hasUniqueReference()
     {
-
         $references = array_map(function () {
             return $this->testModel->invoices()->create([])->reference;
         }, range(1, 100));
         
         $this->assertCount(100, array_unique($references));
+    }
+
+    /** @test */
+    public function canGetInvoiceView()
+    {
+        $this->invoice->addAmountInclTax(121, 'Some description', 0.21);
+        $this->invoice->addAmountInclTax(121, 'Some description', 0.21);
+        $view = $this->invoice->view();
+        $rendered = $view->render(); // fails if view cannot be rendered
+        $this->assertTrue(true);
     }
 }

@@ -84,9 +84,9 @@ echo $invoice->tax; // 42
 // Set additional information (optional)
 $invoice->currency; // defaults to 'EUR' (see config file)
 $invoice->status; // defaults to 'concept' (see config file)
-$invoice->receiver_information; // defaults to null
-$invoice->sender_information; // defaults to null
-$invoice->payment_information; // defaults to null
+$invoice->receiver_info; // defaults to null
+$invoice->sender_info; // defaults to null
+$invoice->payment_info; // defaults to null
 $invoice->note; // defaults to null
 
 // access individual invoice lines using Eloquent relationship
@@ -109,8 +109,9 @@ $ composer test
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
 
 ### To do's:
-[ ] blade view
-[ ] pdf generation (based on blade view)
+[x] blade view (like [this](https://github.com/laravel/cashier/blob/7.0/src/Invoice.php#L234))
+[ ] Money formatting in blade view
+[ ] pdf generation (like [this](https://github.com/laravel/cashier/blob/7.0/src/Invoice.php#L249))
 
 ## Security
 
@@ -128,14 +129,10 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-version]: https://img.shields.io/packagist/v/sandervanhooft/laravel-invoicable.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/sandervanhooft/laravel-invoicable/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/sandervanhooft/laravel-invoicable.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/sandervanhooft/laravel-invoicable.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/sandervanhooft/laravel-invoicable.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/sandervanhooft/laravel-invoicable
 [link-travis]: https://travis-ci.org/sandervanhooft/laravel-invoicable
-[link-scrutinizer]: https://scrutinizer-ci.com/g/sandervanhooft/laravel-invoicable/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/sandervanhooft/laravel-invoicable
 [link-downloads]: https://packagist.org/packages/sandervanhooft/laravel-invoicable
 [link-author]: https://github.com/sandervanhooft
 [link-contributors]: ../../contributors

@@ -3,6 +3,7 @@
 namespace SanderVanHooft\Invoicable;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\View;
 use SanderVanHooft\Invoicable\InvoiceLine;
 
 class Invoice extends Model
@@ -49,6 +50,20 @@ class Invoice extends Model
         $this->tax = $this->lines()->sum('tax');
         $this->save();
         return $this;
+    }
+
+
+    /**
+     * Get the View instance for the invoice.
+     *
+     * @param  array  $data
+     * @return \Illuminate\View\View
+     */
+    public function view(array $data = [])
+    {
+        return View::make('invoicable::receipt', array_merge($data, [
+            'invoice' => $this,
+        ]));
     }
 
     protected static function boot()
