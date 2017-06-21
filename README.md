@@ -5,7 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Easy invoice creation for Laravel 5.4 applications. Inspired a by the invoices used by [Laravel Cashier](https://github.com/laravel/cashier).
+Easy invoice creation for Laravel 5.4 applications. Inspired a bit by the by [Laravel Cashier](https://github.com/laravel/cashier)'s invoices.
 
 ## Structure
 
