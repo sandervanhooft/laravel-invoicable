@@ -9,49 +9,41 @@ class MoneyFormatterTest extends AbstractTestCase
 {
     public function setUp()
     {
+        parent::setUp();
         $this->formatter = new MoneyFormatter();
     }
 
     /** @test */
     public function canHandleNegativeValues()
     {
-        $formatted = $this->formatter->format(-123456);
-        $this->assertEquals('€ -1.234,56', $formatted);
+        $this->assertEquals('€ -1.234,56', $this->formatter->format(-123456));
     }
 
     /** @test */
     public function canFormatMoney()
     {
-        $formatter = new MoneyFormatter();
-        $formatted = $formatter->format(123456);
-        $this->assertEquals('€ 1.234,56', $formatted);
+        $this->assertEquals('€ 1.234,56', $this->formatter->format(123456));
     }
 
     /** @test */
     public function changingTheCurrencyChangesTheFormatting()
     {
-        $formatter = new MoneyFormatter();
-        $formatter->setCurrency('USD');
-        $formatted = $formatter->format(123456);
-        $this->assertEquals('US$ 1.234,56', $formatted);
+        $this->formatter->setCurrency('USD');
+        $this->assertEquals('US$ 1.234,56', $this->formatter->format(123456));
     }
 
     /** @test */
     public function changingTheLocaleChangesTheFormatting()
     {
-        $formatter = new MoneyFormatter();
-        $formatter->setLocale('en_US');
-        $formatted = $formatter->format(123456);
-        $this->assertEquals('€1,234.56', $formatted);
+        $this->formatter->setLocale('en_US');
+        $this->assertEquals('€1,234.56', $this->formatter->format(123456));
     }
 
     /** @test */
     public function changingTheCurrencyAndLocaleChangesTheFormatting()
     {
-        $formatter = new MoneyFormatter();
-        $formatter->setCurrency('USD');
-        $formatter->setLocale('en_US');
-        $formatted = $formatter->format(123456);
-        $this->assertEquals('$1,234.56', $formatted);
+        $this->formatter->setCurrency('USD');
+        $this->formatter->setLocale('en_US');
+        $this->assertEquals('$1,234.56', $this->formatter->format(123456));
     }
 }
