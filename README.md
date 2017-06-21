@@ -151,13 +151,13 @@ If you discover any security related issues, please email info@sandervanhooft.nl
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/sandervanhooft/laravel-invoicable.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/sander-van-hooft/laravel-invoicable.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/sandervanhooft/laravel-invoicable/master.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/sandervanhooft/laravel-invoicable.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/sander-van-hooft/laravel-invoicable.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/sandervanhooft/laravel-invoicable
+[link-packagist]: https://packagist.org/packages/sander-van-hooft/laravel-invoicable
 [link-travis]: https://travis-ci.org/sandervanhooft/laravel-invoicable
-[link-downloads]: https://packagist.org/packages/sandervanhooft/laravel-invoicable
+[link-downloads]: https://packagist.org/packages/sander-van-hooft/laravel-invoicable
 [link-author]: https://github.com/sandervanhooft
 [link-contributors]: ../../contributors
