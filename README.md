@@ -109,8 +109,6 @@ $ composer test
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
 
 ### To do's:
-[x] blade view (like [this](https://github.com/laravel/cashier/blob/7.0/src/Invoice.php#L234))
-[ ] Money formatting in blade view
 [ ] pdf generation (like [this](https://github.com/laravel/cashier/blob/7.0/src/Invoice.php#L249))
 
 ## Security

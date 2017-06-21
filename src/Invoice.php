@@ -52,7 +52,6 @@ class Invoice extends Model
         return $this;
     }
 
-
     /**
      * Get the View instance for the invoice.
      *
@@ -63,6 +62,10 @@ class Invoice extends Model
     {
         return View::make('invoicable::receipt', array_merge($data, [
             'invoice' => $this,
+            'moneyFormatter' => new MoneyFormatter(
+                $this->currency,
+                config('invoicable.locale')
+            ),
         ]));
     }
 

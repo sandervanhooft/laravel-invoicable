@@ -99,7 +99,7 @@
                     @foreach ($invoice->lines as $line)
                         <tr>
                             <td colspan="2">{{ $line->description }}</td>
-                            <td>{{ $line->amount }}</td>
+                            <td>{{ $moneyFormatter->format($line->amount) }}</td>
                             <td>{{ $line->tax_percentage * 100 }}%</td>
                         </tr>
                     @endforeach
@@ -108,14 +108,14 @@
                     <tr style="border-top:2px solid #000;">
                         <td>&nbsp;</td>
                         <td style="text-align: right;"><strong>Total</strong></td>
-                        <td><strong>{{ $invoice->currency }} {{ $invoice->total }}</strong></td>
+                        <td><strong>{{ $moneyFormatter->format($invoice->total) }}</strong></td>
                     </tr>
 
                     <!-- Display The Tax specification -->
                     <tr>
                         <td colspan="2">Included tax</td>
                         <td>&nbsp;</td>
-                        <td>{{ $invoice->tax }}</td>
+                        <td>{{ $moneyFormatter->format($invoice->tax) }}</td>
                     </tr>
                 </table>
             </td>
