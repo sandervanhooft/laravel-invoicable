@@ -2,14 +2,19 @@
 
 namespace SanderVanHooft\Invoicable;
 
+use Dompdf\Dompdf;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\View;
 use SanderVanHooft\Invoicable\InvoiceLine;
+use Symfony\Component\HttpFoundation\Response;
 
 class Invoice extends Model
 {
     protected $guarded = [];
 
+    /**
+     * Get the invoice lines for this invoice
+     */
     public function lines()
     {
         return $this->hasMany(InvoiceLine::class);
@@ -17,6 +22,10 @@ class Invoice extends Model
 
     /**
      * Use this if the amount does not yet include tax.
+     * @param Int $amount The amount in cents, excluding taxes
+     * @param String $description The description
+     * @param Float $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
+     * @return Illuminate\Database\Eloquent\Model  This instance after recalculation
      */
     public function addAmountExclTax($amount, $description, $taxPercentage = 0)
     {
@@ -32,6 +41,10 @@ class Invoice extends Model
 
     /**
      * Use this if the amount already includes tax.
+     * @param Int $amount The amount in cents, including taxes
+     * @param String $description The description
+     * @param Float $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
+     * @return Illuminate\Database\Eloquent\Model  This instance after recalculation
      */
     public function addAmountInclTax($amount, $description, $taxPercentage = 0)
     {
@@ -44,6 +57,10 @@ class Invoice extends Model
         return $this->recalculate();
     }
 
+    /**
+     * Recalculates total and tax based on lines
+     * @return Illuminate\Database\Eloquent\Model  This instance
+     */
     public function recalculate()
     {
         $this->total = $this->lines()->sum('amount');
@@ -67,6 +84,46 @@ class Invoice extends Model
                 config('invoicable.locale')
             ),
         ]));
+    }
+
+    /**
+     * Capture the invoice as a PDF and return the raw bytes.
+     *
+     * @param  array  $data
+     * @return string
+     */
+    public function pdf(array $data = [])
+    {
+        if (! defined('DOMPDF_ENABLE_AUTOLOAD')) {
+            define('DOMPDF_ENABLE_AUTOLOAD', false);
+        }
+
+        if (file_exists($configPath = base_path().'/vendor/dompdf/dompdf/dompdf_config.inc.php')) {
+            require_once $configPath;
+        }
+
+        $dompdf = new Dompdf;
+        $dompdf->loadHtml($this->view($data)->render());
+        $dompdf->render();
+        return $dompdf->output();
+    }
+
+    /**
+     * Create an invoice download response.
+     *
+     * @param  array  $data
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function download(array $data = [])
+    {
+        $filename = $this->reference . '.pdf';
+
+        return new Response($this->pdf($data), 200, [
+            'Content-Description' => 'File Transfer',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+            'Content-Transfer-Encoding' => 'binary',
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 
     protected static function boot()

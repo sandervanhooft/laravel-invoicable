@@ -55,6 +55,18 @@ class InvoiceTest extends AbstractTestCase
     }
 
     /** @test */
+    public function canHandleNegativeAmounts()
+    {
+        $this->invoice = $this->testModel->invoices()->create([])->fresh();
+        
+        $this->invoice->addAmountInclTax(121, 'Some description', 0.21);
+        $this->invoice->addAmountInclTax(-121, 'Some negative amount description', 0.21);
+
+        $this->assertEquals("0", (string) $this->invoice->total);
+        $this->assertEquals("0", (string) $this->invoice->tax);
+    }
+
+    /** @test */
     public function hasUniqueReference()
     {
         $references = array_map(function () {
@@ -71,6 +83,24 @@ class InvoiceTest extends AbstractTestCase
         $this->invoice->addAmountInclTax(121, 'Some description', 0.21);
         $view = $this->invoice->view();
         $rendered = $view->render(); // fails if view cannot be rendered
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function canGetInvoicePdf()
+    {
+        $this->invoice->addAmountInclTax(121, 'Some description', 0.21);
+        $this->invoice->addAmountInclTax(121, 'Some description', 0.21);
+        $pdf = $this->invoice->pdf();  // fails if pdf cannot be rendered
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function canDownloadInvoicePdf()
+    {
+        $this->invoice->addAmountInclTax(121, 'Some description', 0.21);
+        $this->invoice->addAmountInclTax(121, 'Some description', 0.21);
+        $download = $this->invoice->download(); // fails if pdf cannot be rendered
         $this->assertTrue(true);
     }
 }

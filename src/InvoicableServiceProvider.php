@@ -13,7 +13,12 @@ class InvoicableServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'invoicable');
+        $sourceViewsPath = __DIR__.'/../resources/views';
+        $this->loadViewsFrom($sourceViewsPath, 'invoicable');
+
+        $this->publishes([
+            $sourceViewsPath => resource_path('views/vendor/invoicable'),
+        ], 'views');
 
         // Publish a config file
         $this->publishes([

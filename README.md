@@ -47,6 +47,32 @@ After the migration has been published you can create the invoices and invoice_l
 $ php artisan migrate
 ```
 
+Optionally, you can also publish the `invoicable.php` config file with:
+
+``` bash
+$ php artisan vendor:publish --provider="SanderVanHooft\Invoicable\InvoicableServiceProvider" --tag="config"
+```
+
+This is what the default config file looks like:
+
+``` php
+
+return [
+    'default_currency' => 'EUR',
+    'default_status' => 'concept',
+    'locale' => 'nl_NL',
+];
+```
+
+If you'd like to override the design of the invoice blade view and pdf, publish the view:
+
+``` bash
+$ php artisan vendor:publish --provider="SanderVanHooft\Invoicable\InvoicableServiceProvider" --tag="views"
+```
+
+You can now edit `receipt.blade.php` in `<project_root>/resources/views/invoicable/receipt.blade.php` to match your style.
+
+
 ## Usage
 
 __Money figures are in cents!__
@@ -92,6 +118,9 @@ $invoice->note; // defaults to null
 // access individual invoice lines using Eloquent relationship
 $invoice->lines;
 $invoice->lines();
+
+$invoice->download(); // download as pdf
+$invoice->pdf(); // or just grab the pdf
 ```
 
 ## Change log
@@ -107,9 +136,6 @@ $ composer test
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
-
-### To do's:
-[ ] pdf generation (like [this](https://github.com/laravel/cashier/blob/7.0/src/Invoice.php#L249))
 
 ## Security
 
