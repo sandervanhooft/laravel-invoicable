@@ -4,7 +4,7 @@ namespace SanderVanHooft\Invoicable\IsInvoicable;
 
 use SanderVanHooft\Invoicable\Invoice;
 
-trait isInvoicableTrait
+trait IsInvoicableTrait
 {
     /**
      * Set the polymorphic relation.

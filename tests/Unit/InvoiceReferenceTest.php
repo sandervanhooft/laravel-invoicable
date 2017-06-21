@@ -40,7 +40,7 @@ class InvoiceReferenceTest extends AbstractTestCase
     }
 
     /** @test */
-    function cannotContainAmbiguousCharacters()
+    public function cannotContainAmbiguousCharacters()
     {
         $code = substr($this->reference, -6);
 

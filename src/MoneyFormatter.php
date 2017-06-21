@@ -19,7 +19,7 @@ class MoneyFormatter
      */
     protected $locale;
 
-    function __construct($currency = 'EUR', $locale = 'nl_NL')
+    public function __construct($currency = 'EUR', $locale = 'nl_NL')
     {
         $this->currency = $currency;
         $this->locale = $locale;
@@ -32,7 +32,7 @@ class MoneyFormatter
      */
     public function format($amount)
     {
-        $formatter = new \NumberFormatter($this->locale,  \NumberFormatter::CURRENCY);
+        $formatter = new \NumberFormatter($this->locale, \NumberFormatter::CURRENCY);
         return (string) $formatter->formatCurrency($amount / 100, $this->currency);
     }
 
