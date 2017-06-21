@@ -5,7 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-DESCRIPTION: __WORK IN PROGRESS!__
+Easy invoice creation for Laravel 5.4 applications. Inspired a by the invoices used by [Laravel Cashier](https://github.com/laravel/cashier).
 
 ## Structure
 
@@ -119,8 +119,9 @@ $invoice->note; // defaults to null
 $invoice->lines;
 $invoice->lines();
 
-$invoice->download(); // download as pdf
-$invoice->pdf(); // or just grab the pdf
+// Access as pdf
+$invoice->download(); // download as pdf (returns http response)
+$invoice->pdf(); // or just grab the pdf (raw bytes)
 ```
 
 ## Change log
