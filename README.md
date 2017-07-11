@@ -33,14 +33,14 @@ Next, you must install the service provider:
 // config/app.php
 'providers' => [
     ...
-    SanderVanHooft\PayableRedirect\InvoicableServiceProvider::class,
+    SanderVanHooft\Invoicable\InvoicableServiceProvider::class,
 ];
 ```
 
 You can publish the migration with:
 
 ``` bash
-$ php artisan vendor:publish --provider="SanderVanHooft\PayableRedirect\InvoicableServiceProvider" --tag="migrations"
+$ php artisan vendor:publish --provider="SanderVanHooft\Invoicable\InvoicableServiceProvider" --tag="migrations"
 ```
 
 After the migration has been published you can create the invoices and invoice_lines tables by running the migrations:
