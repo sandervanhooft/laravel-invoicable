@@ -10,6 +10,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## 2018-03-20
 ### Fixed
 - Laravel and phpunit version bumps
+- Readme file now explains how you to (manually) apply discounts
 
 ## NEXT - YYYY-MM-DD
 
