@@ -7,6 +7,10 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## 2017-06-21
 - First release
 
+## 2018-03-20
+### Fixed
+- Laravel and phpunit version bumps
+
 ## NEXT - YYYY-MM-DD
 
 ### Added

@@ -5,7 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Easy invoice creation for Laravel 5.4 applications. Unlike Laravel Cashier, this package is payment gateway agnostic.
+Easy invoice creation for Laravel 5.4 and up. Unlike Laravel Cashier, this package is payment gateway agnostic.
 
 If you're looking for Mollie payment processing, be sure to check out [laravel-payable-redirect-mollie](https://github.com/sandervanhooft/laravel-payable-redirect-mollie).
 
@@ -27,7 +27,7 @@ Via Composer
 $ composer require sander-van-hooft/laravel-invoicable
 ```
 
-Next, you must install the service provider:
+Next, you must install the service provider if you work with Laravel 5.4:
 
 ``` php
 // config/app.php
@@ -92,6 +92,7 @@ class Order extends Model
 ```
 
 Now you can create invoices for an Order:
+
 ``` php
 $order = new Order();
 $invoice = $order->invoices()->create([]);
@@ -124,7 +125,15 @@ $invoice->lines();
 // Access as pdf
 $invoice->download(); // download as pdf (returns http response)
 $invoice->pdf(); // or just grab the pdf (raw bytes)
+
+// Handling discounts
+// By adding a line with a negative amount.
+$invoice = $invoice->addAmountInclTax(-121, 'A nice discount', 0.21);
+
+// Or by applying the discount and discribing the discount manually
+$invoice = $invoice->addAmountInclTax(121 * (1 - 0.30), 'Product XYZ incl 30% discount', 0.21);
 ```
+
 
 ## Change log
 
