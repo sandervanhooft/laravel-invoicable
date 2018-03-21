@@ -13,7 +13,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Nothing
 
 ### Fixed
-- Nothing
+- Updated author E-mail and website addresses
 
 ### Removed
 - Nothing
@@ -28,3 +28,22 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## 2017-06-21
 - First release
+
+# --- TEMPLATE BELOW ---
+
+## NEXT - YYYY-MM-DD
+
+### Added
+- Nothing
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
