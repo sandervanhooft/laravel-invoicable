@@ -4,22 +4,13 @@ All Notable changes to `laravel-invoicable` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## NEXT - YYYY-MM-DD
+## 1.0.7 - 2018-03-26
 
 ### Added
-- Nothing
-
-### Deprecated
-- Nothing
+- Now automatically registers ServiceProvider with Laravel 5.5 and up. (See issue #5)
 
 ### Fixed
-- Updated author E-mail and website addresses
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
+- Updated author E-mail and website addresses (.com instead of .nl)
 
 ## 2018-03-20
 ### Fixed
