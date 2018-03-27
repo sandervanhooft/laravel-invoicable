@@ -11,18 +11,6 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Convenience method Invoice::findByReferenceOrFail($reference)
 - Convenience method $invoice->invoicable() for accessing related model
 
-### Deprecated
-- Nothing
-
-### Fixed
-- Nothing
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
-
 ## 1.0.7 - 2018-03-26
 
 ### Added
