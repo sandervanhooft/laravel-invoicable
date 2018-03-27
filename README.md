@@ -132,6 +132,10 @@ $invoice = $invoice->addAmountInclTax(-121, 'A nice discount', 0.21);
 
 // Or by applying the discount and discribing the discount manually
 $invoice = $invoice->addAmountInclTax(121 * (1 - 0.30), 'Product XYZ incl 30% discount', 0.21);
+
+// Conveniently find the invoices by references
+Invoice::findByReference($reference);
+Invoice::findByReferenceOrFail($reference);
 ```
 
 

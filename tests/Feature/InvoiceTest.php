@@ -3,8 +3,9 @@
 namespace SanderVanHooft\Invoicable\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use SanderVanHooft\Invoicable\TestModel;
 use SanderVanHooft\Invoicable\AbstractTestCase;
+use SanderVanHooft\Invoicable\Invoice;
+use SanderVanHooft\Invoicable\TestModel;
 
 class InvoiceTest extends AbstractTestCase
 {
@@ -34,7 +35,7 @@ class InvoiceTest extends AbstractTestCase
     public function canAddAmountExclTaxToInvoice()
     {
         $this->invoice = $this->testModel->invoices()->create([])->fresh();
-        
+
         $this->invoice->addAmountExclTax(100, 'Some description', 0.21);
         $this->invoice->addAmountExclTax(100, 'Some description', 0.21);
 
@@ -46,7 +47,7 @@ class InvoiceTest extends AbstractTestCase
     public function canAddAmountInclTaxToInvoice()
     {
         $this->invoice = $this->testModel->invoices()->create([])->fresh();
-        
+
         $this->invoice->addAmountInclTax(121, 'Some description', 0.21);
         $this->invoice->addAmountInclTax(121, 'Some description', 0.21);
 
@@ -58,7 +59,7 @@ class InvoiceTest extends AbstractTestCase
     public function canHandleNegativeAmounts()
     {
         $this->invoice = $this->testModel->invoices()->create([])->fresh();
-        
+
         $this->invoice->addAmountInclTax(121, 'Some description', 0.21);
         $this->invoice->addAmountInclTax(-121, 'Some negative amount description', 0.21);
 
@@ -72,7 +73,7 @@ class InvoiceTest extends AbstractTestCase
         $references = array_map(function () {
             return $this->testModel->invoices()->create([])->reference;
         }, range(1, 100));
-        
+
         $this->assertCount(100, array_unique($references));
     }
 
@@ -102,5 +103,26 @@ class InvoiceTest extends AbstractTestCase
         $this->invoice->addAmountInclTax(121, 'Some description', 0.21);
         $download = $this->invoice->download(); // fails if pdf cannot be rendered
         $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function canFindByReference()
+    {
+        $invoice = $this->testModel->invoices()->create([]);
+        $this->assertEquals($invoice->id, Invoice::findByReference($invoice->reference)->id);
+    }
+
+    /** @test */
+    public function canFindByReferenceOrFail()
+    {
+        $invoice = $this->testModel->invoices()->create([]);
+        $this->assertEquals($invoice->id, Invoice::findByReferenceOrFail($invoice->reference)->id);
+    }
+
+    /** @test */
+    public function canFindByReferenceOrFailThrowsExceptionForNonExistingReference()
+    {
+        $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
+        Invoice::findByReferenceOrFail('non-existing-reference');
     }
 }

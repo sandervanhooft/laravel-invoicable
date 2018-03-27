@@ -5,7 +5,6 @@ namespace SanderVanHooft\Invoicable;
 use Dompdf\Dompdf;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\View;
-use SanderVanHooft\Invoicable\InvoiceLine;
 use Symfony\Component\HttpFoundation\Response;
 
 class Invoice extends Model
@@ -51,7 +50,7 @@ class Invoice extends Model
         $this->lines()->create([
             'amount' => $amount,
             'description' => $description,
-            'tax' => $amount - $amount / ( 1 + $taxPercentage ),
+            'tax' => $amount - $amount / (1 + $taxPercentage),
             'tax_percentage' => $taxPercentage,
         ]);
         return $this->recalculate();
@@ -124,6 +123,16 @@ class Invoice extends Model
             'Content-Transfer-Encoding' => 'binary',
             'Content-Type' => 'application/pdf',
         ]);
+    }
+
+    public static function findByReference($reference)
+    {
+        return static::where('reference', $reference)->first();
+    }
+
+    public static function findByReferenceOrFail($reference)
+    {
+        return static::where('reference', $reference)->firstOrFail();
     }
 
     protected static function boot()

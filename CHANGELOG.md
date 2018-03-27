@@ -4,6 +4,23 @@ All Notable changes to `laravel-invoicable` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## NEXT 1.0.8 - YYYY-MM-DD
+
+### Added
+- Convenience methods Invoice::findByReference($reference) and Invoice::findByReferenceOrFail($reference)
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
 ## 1.0.7 - 2018-03-26
 
 ### Added
