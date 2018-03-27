@@ -125,4 +125,17 @@ class InvoiceTest extends AbstractTestCase
         $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
         Invoice::findByReferenceOrFail('non-existing-reference');
     }
+
+    /** @test */
+    public function canAccessInvoicable()
+    {
+        // Check if correctly set on invoice
+        $this->assertEquals(TestModel::class, $this->invoice->invoicable_type);
+        $this->assertEquals($this->testModel->id, $this->invoice->invoicable_id);
+
+        // Check if invoicable is accessible
+        $this->assertNotNull($this->invoice->invoicable);
+        $this->assertEquals(TestModel::class, get_class($this->invoice->invoicable));
+        $this->assertEquals($this->testModel->id, $this->invoice->invoicable->id);
+    }
 }

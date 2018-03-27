@@ -135,6 +135,11 @@ class Invoice extends Model
         return static::where('reference', $reference)->firstOrFail();
     }
 
+    public function invoicable()
+    {
+        return $this->morphTo();
+    }
+
     protected static function boot()
     {
         parent::boot();

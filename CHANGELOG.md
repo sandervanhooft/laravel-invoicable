@@ -7,7 +7,9 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## NEXT 1.0.8 - YYYY-MM-DD
 
 ### Added
-- Convenience methods Invoice::findByReference($reference) and Invoice::findByReferenceOrFail($reference)
+- Convenience method Invoice::findByReference($reference)
+- Convenience method Invoice::findByReferenceOrFail($reference)
+- Convenience method $invoice->invoicable() for accessing related model
 
 ### Deprecated
 - Nothing
