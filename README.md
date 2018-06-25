@@ -81,6 +81,11 @@ __Money figures are in cents!__
 
 Add the invoicable trait to the Eloquent model which needs to be invoiced (typically an Order model):
 
+Create order model using `php artisan make:model Order -m` 
+Run migration `php artisan migrate`
+
+Order model at this point contains bare minimum `id` , `created_at` and `updated_at` columns. You can improve it according to your needs.
+
 ``` php
 use Illuminate\Database\Eloquent\Model;
 use SanderVanHooft\Invoicable\IsInvoicable\IsInvoicableTrait;
@@ -91,10 +96,15 @@ class Order extends Model
 }
 ```
 
-Now you can create invoices for an Order:
+
+Now you can create invoices for an Order.
+
+
+
 
 ``` php
 $order = new Order();
+$order->save(); // Save the order model 
 $invoice = $order->invoices()->create([]);
 
 // To add a line to the invoice, use these example parameters:
@@ -136,7 +146,7 @@ $invoice = $invoice->addAmountInclTax(121 * (1 - 0.30), 'Product XYZ incl 30% di
 // Convenience methods
 Invoice::findByReference($reference);
 Invoice::findByReferenceOrFail($reference);
-$invoice->invoicable() // Access the related model
+$invoice->invoicable(); // Access the related model
 ```
 
 
