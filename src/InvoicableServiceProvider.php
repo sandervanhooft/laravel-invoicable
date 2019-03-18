@@ -30,6 +30,9 @@ class InvoicableServiceProvider extends ServiceProvider
              __DIR__.'/../database/migrations/2017_06_17_163005_create_invoices_tables.php'
              => database_path('migrations/2017_06_17_163005_create_invoices_tables.php'),
          ], 'migrations');
+        
+        $config = $this->app->config['invoicable'];
+        $this->app->bind(InvoiceReferenceGenerator::class, $config['invoice_reference_generator']);
     }
 
     /**
