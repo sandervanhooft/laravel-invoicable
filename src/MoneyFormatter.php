@@ -2,16 +2,12 @@
 
 namespace SanderVanHooft\Invoicable;
 
+use Money\Currencies\ISOCurrencies;
+use Money\Formatter\IntlMoneyFormatter;
+use Money\Money;
+
 class MoneyFormatter
 {
-
-    /**
-     * The current currency.
-     *
-     * @var string
-     */
-    protected $currency;
-
     /**
      * The current locale.
      *
@@ -19,58 +15,49 @@ class MoneyFormatter
      */
     protected $locale;
 
-    public function __construct($currency = 'EUR', $locale = 'nl_NL')
+    /**
+     * MoneyFormatter constructor.
+     *
+     * @param string $locale
+     */
+    public function __construct(string $locale = 'nl_NL')
     {
-        $this->currency = $currency;
         $this->locale = $locale;
     }
 
     /**
-     * Gets the amount formatted according the currency and locale
-     * @param $amount The amount in cents(!)
+     * Format the amount into a string.
+     *
+     * @param \Money\Money $amount The amount
      * @return String The current locale
      */
-    public function format($amount)
+    public function format(Money $amount): string
     {
-        $formatter = new \NumberFormatter($this->locale, \NumberFormatter::CURRENCY);
-        return (string) $formatter->formatCurrency($amount / 100, $this->currency);
+        $numberFormatter = new \NumberFormatter($this->getLocale(), \NumberFormatter::CURRENCY);
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ISOCurrencies);
+
+        return $moneyFormatter->format($amount);
     }
 
     /**
      * Gets the current locale
      * @return String The current locale
      */
-    public function getLocale() : string
+    public function getLocale(): string
     {
         return (string) $this->locale;
     }
 
     /**
      * Sets the current locale
-     * @param $locale The locale (i.e. 'nl_NL')
-     * @return Void
+     *
+     * @param string $locale The locale (i.e. 'nl_NL')
+     * @return $this
      */
-    public function setLocale(string $locale)
+    public function setLocale(string $locale): self
     {
         $this->locale = $locale;
-    }
 
-    /**
-     * Gets the current currency
-     * @return String The current currency
-     */
-    public function getCurrency()
-    {
-        return (string) $this->currency;
-    }
-
-     /**
-     * Sets the current currency
-     * @param $currency The currency (i.e. 'EUR')
-     * @return Void
-     */
-    public function setCurrency(string $currency)
-    {
-        $this->currency = $currency;
+        return $this;
     }
 }

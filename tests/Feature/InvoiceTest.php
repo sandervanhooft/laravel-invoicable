@@ -7,7 +7,6 @@ use SanderVanHooft\Invoicable\AbstractTestCase;
 use SanderVanHooft\Invoicable\Invoice;
 use SanderVanHooft\Invoicable\TestModel;
 
-
 class InvoiceTest extends AbstractTestCase
 {
     use DatabaseMigrations;
@@ -138,5 +137,21 @@ class InvoiceTest extends AbstractTestCase
         $this->assertNotNull($this->invoice->invoicable);
         $this->assertEquals(TestModel::class, get_class($this->invoice->invoicable));
         $this->assertEquals($this->testModel->id, $this->invoice->invoicable->id);
+    }
+
+    /** @test */
+    public function canGetMoneyAmounts()
+    {
+        $this->assertMoneyEurCents(0, $this->invoice->total());
+        $this->assertMoneyEurCents(0, $this->invoice->tax());
+
+        $this->invoice->addAmountExclTax(100, 'Some description', 0.21);
+
+        $this->assertMoneyEurCents(121, $this->invoice->total());
+        $this->assertMoneyEurCents(21, $this->invoice->tax());
+
+        $line = $this->invoice->lines()->first();
+        $this->assertMoneyEurCents(121, $line->amount());
+        $this->assertMoneyEurCents(21, $line->tax());
     }
 }

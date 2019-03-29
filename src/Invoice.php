@@ -5,6 +5,8 @@ namespace SanderVanHooft\Invoicable;
 use Dompdf\Dompdf;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\View;
+use Money\Currency;
+use Money\Money;
 use Symfony\Component\HttpFoundation\Response;
 
 class Invoice extends Model
@@ -26,7 +28,7 @@ class Invoice extends Model
      * @param Float $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
      * @return $this  This instance after recalculation
      */
-    public function addAmountExclTax($amount, $description, $taxPercentage = 0)
+    public function addAmountExclTax(int $amount, string $description, float $taxPercentage = 0)
     {
         $tax = $amount * $taxPercentage;
         $this->lines()->create([
@@ -45,7 +47,7 @@ class Invoice extends Model
      * @param Float $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
      * @return $this  This instance after recalculation
      */
-    public function addAmountInclTax($amount, $description, $taxPercentage = 0)
+    public function addAmountInclTax(int $amount, string $description, float $taxPercentage = 0)
     {
         $this->lines()->create([
             'amount' => $amount,
@@ -80,10 +82,7 @@ class Invoice extends Model
     {
         return View::make($view, array_merge($data, [
             'invoice' => $this,
-            'moneyFormatter' => new MoneyFormatter(
-                $this->currency,
-                config('invoicable.locale')
-            ),
+            'moneyFormatter' => $this->moneyFormatter(),
         ]));
     }
 
@@ -144,6 +143,22 @@ class Invoice extends Model
         return $this->morphTo();
     }
 
+    /**
+     * @return \Money\Money
+     */
+    public function total(): Money
+    {
+        return $this->asMoney($this->total);
+    }
+
+    /**
+     * @return \Money\Money
+     */
+    public function tax(): Money
+    {
+        return $this->asMoney($this->tax);
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -153,5 +168,25 @@ class Invoice extends Model
             $model->status = config('invoicable.default_status', 'concept');
             $model->reference = app()->make(InvoiceReferenceGenerator::class)->generate();
         });
+    }
+
+    /**
+     * @return \SanderVanHooft\Invoicable\MoneyFormatter
+     */
+    protected function moneyFormatter()
+    {
+        return app(MoneyFormatter::class, [
+            $this->currency,
+            config('invoicable.locale'),
+        ]);
+    }
+
+    /**
+     * @param int $amount
+     * @return \Money\Money
+     */
+    protected function asMoney(int $amount)
+    {
+        return new Money($amount, new Currency($this->currency));
     }
 }
