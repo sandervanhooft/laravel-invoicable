@@ -72,10 +72,11 @@ class Invoice extends Model
     /**
      * Get the View instance for the invoice.
      *
-     * @param  array  $data
+     * @param  array $data
+     * @param string $view
      * @return \Illuminate\Contracts\View\View
      */
-    public function view(array $data = [], $view = 'invoicable::receipt')
+    public function view(array $data = [], string $view = 'invoicable::receipt')
     {
         return View::make($view, array_merge($data, [
             'invoice' => $this,
@@ -89,10 +90,11 @@ class Invoice extends Model
     /**
      * Capture the invoice as a PDF and return the raw bytes.
      *
-     * @param  array  $data
+     * @param  array $data
+     * @param string $view
      * @return string
      */
-    public function pdf(array $data = [])
+    public function pdf(array $data = [], string $view = 'invoicable::receipt')
     {
         if (! defined('DOMPDF_ENABLE_AUTOLOAD')) {
             define('DOMPDF_ENABLE_AUTOLOAD', false);
@@ -103,7 +105,7 @@ class Invoice extends Model
         }
 
         $dompdf = new Dompdf;
-        $dompdf->loadHtml($this->view($data)->render());
+        $dompdf->loadHtml($this->view($data, $view)->render());
         $dompdf->render();
         return $dompdf->output();
     }
@@ -111,14 +113,15 @@ class Invoice extends Model
     /**
      * Create an invoice download response.
      *
-     * @param  array  $data
+     * @param  array $data
+     * @param string $view
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function download(array $data = [])
+    public function download(array $data = [], string $view = 'invoicable::receipt')
     {
         $filename = $this->reference . '.pdf';
 
-        return new Response($this->pdf($data), 200, [
+        return new Response($this->pdf($data, $view), 200, [
             'Content-Description' => 'File Transfer',
             'Content-Disposition' => 'attachment; filename="'.$filename.'"',
             'Content-Transfer-Encoding' => 'binary',
