@@ -24,7 +24,7 @@ class Invoice extends Model
      * @param Int $amount The amount in cents, excluding taxes
      * @param String $description The description
      * @param Float $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
-     * @return Illuminate\Database\Eloquent\Model  This instance after recalculation
+     * @return $this  This instance after recalculation
      */
     public function addAmountExclTax($amount, $description, $taxPercentage = 0)
     {
@@ -43,7 +43,7 @@ class Invoice extends Model
      * @param Int $amount The amount in cents, including taxes
      * @param String $description The description
      * @param Float $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
-     * @return Illuminate\Database\Eloquent\Model  This instance after recalculation
+     * @return $this  This instance after recalculation
      */
     public function addAmountInclTax($amount, $description, $taxPercentage = 0)
     {
@@ -58,13 +58,14 @@ class Invoice extends Model
 
     /**
      * Recalculates total and tax based on lines
-     * @return Illuminate\Database\Eloquent\Model  This instance
+     * @return $this  This instance
      */
     public function recalculate()
     {
         $this->total = $this->lines()->sum('amount');
         $this->tax = $this->lines()->sum('tax');
         $this->save();
+
         return $this;
     }
 
@@ -72,11 +73,11 @@ class Invoice extends Model
      * Get the View instance for the invoice.
      *
      * @param  array  $data
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\View
      */
-    public function view(array $data = [])
+    public function view(array $data = [], $view = 'invoicable::receipt')
     {
-        return View::make('invoicable::receipt', array_merge($data, [
+        return View::make($view, array_merge($data, [
             'invoice' => $this,
             'moneyFormatter' => new MoneyFormatter(
                 $this->currency,

@@ -2,37 +2,16 @@
 
 namespace SanderVanHooft\Invoicable;
 
-use GrahamCampbell\TestBench\AbstractPackageTestCase;
-use SanderVanHooft\Invoicable\InvoicableServiceProvider;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 
-class AbstractTestCase extends AbstractPackageTestCase
+class AbstractTestCase extends BaseTestCase
 {
-    /**
-     * @param \Illuminate\Foundation\Application $app
-     */
-    protected function getEnvironmentSetUp($app)
+    protected function getPackageProviders($app)
     {
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-        ]);
+        return [InvoicableServiceProvider::class];
     }
 
-    /**
-     * Get the service provider class.
-     *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     *
-     * @return string
-     */
-    protected function getServiceProviderClass($app)
-    {
-        return InvoicableServiceProvider::class;
-    }
-
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withPackageMigrations();
@@ -41,7 +20,8 @@ class AbstractTestCase extends AbstractPackageTestCase
     protected function withPackageMigrations()
     {
         include_once __DIR__.'/CreateTestModelsTable.php';
-        (new \SanderVanHooft\Invoicable\CreateTestModelsTable())->up();
+        (new \CreateTestModelsTable())->up();
+
         include_once __DIR__.'/../database/migrations/2017_06_17_163005_create_invoices_tables.php';
         (new \CreateInvoicesTables())->up();
     }

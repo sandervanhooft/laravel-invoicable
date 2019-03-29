@@ -13,7 +13,7 @@ class InvoiceReferenceTest extends AbstractTestCase
 {
     use DatabaseMigrations;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->reference = InvoiceReferenceGenerator::generate();
