@@ -147,7 +147,7 @@ class Invoice extends Model
         static::creating(function ($model) {
             $model->currency = config('invoicable.default_currency', 'EUR');
             $model->status = config('invoicable.default_status', 'concept');
-            $model->reference = InvoiceReferenceGenerator::generate();
+            $model->reference = app()->make(InvoiceReferenceGenerator::class)->generate();
         });
     }
 }

@@ -7,6 +7,7 @@ use SanderVanHooft\Invoicable\AbstractTestCase;
 use SanderVanHooft\Invoicable\Invoice;
 use SanderVanHooft\Invoicable\TestModel;
 
+
 class InvoiceTest extends AbstractTestCase
 {
     use DatabaseMigrations;
