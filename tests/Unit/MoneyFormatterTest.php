@@ -7,7 +7,7 @@ use SanderVanHooft\Invoicable\MoneyFormatter;
 
 class MoneyFormatterTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
         $this->formatter = new MoneyFormatter();
