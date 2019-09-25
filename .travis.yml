@@ -1,8 +1,6 @@
 language: php
 
 php:
-  - 7.0
-  - 7.1
   - 7.2
   - 7.3
   - nightly
@@ -10,14 +8,14 @@ php:
 cache:
     directories:
         - "$HOME/.composer/cache"
-env:
-  matrix:
-    - COMPOSER_FLAGS=""
+
+matrix:
+    allow_failures:
+        - php: nightly
 
 before_install:
   - sudo apt-get update
   - travis_retry composer self-update
-#  - mv phpunit.xml.dist phpunit.xml
 
 install:
   - travis_retry composer update --prefer-source $PREFER_LOWEST

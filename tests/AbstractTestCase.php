@@ -32,7 +32,7 @@ class AbstractTestCase extends AbstractPackageTestCase
         return InvoicableServiceProvider::class;
     }
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
         $this->withPackageMigrations();
