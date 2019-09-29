@@ -94,7 +94,7 @@ class Order extends Model
 Now you can create invoices for an Order:
 
 ``` php
-$order = new Order();
+$order = Order::first();
 $invoice = $order->invoices()->create([]);
 
 // To add a line to the invoice, use these example parameters:
