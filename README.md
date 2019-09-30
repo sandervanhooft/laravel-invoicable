@@ -5,7 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Easy invoice creation for Laravel 5.4 and up. Unlike Laravel Cashier, this package is payment gateway agnostic.
+Easy invoice creation for Laravel. Unlike Laravel Cashier, this package is payment gateway agnostic.
 
 If you're looking for Mollie payment processing, be sure to check out [laravel-payable-redirect-mollie](https://github.com/sandervanhooft/laravel-payable-redirect-mollie).
 
