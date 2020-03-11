@@ -144,6 +144,11 @@ class Invoice extends Model
     {
         parent::boot();
 
+        static::addGlobalScope(function ($query) {
+            $query
+                ->where('is_bill', false);
+        });
+
         static::creating(function ($model) {
             $model->currency = config('invoicable.default_currency', 'EUR');
             $model->status = config('invoicable.default_status', 'concept');
