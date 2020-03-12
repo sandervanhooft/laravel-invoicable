@@ -15,7 +15,12 @@ class CreateTestModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('test_models', function (Blueprint $table) {
+        Schema::create('product_test_models', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->timestamps();
+        });
+
+        Schema::create('customer_test_models', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
         });
