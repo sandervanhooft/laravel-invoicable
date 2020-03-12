@@ -36,7 +36,7 @@ class CreateInvoicesTables extends Migration
         });
 
         Schema::create($tableNames['invoice_lines'], function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->bigInteger('amount')->default(0)->description('in cents, including tax');
             $table->bigInteger('tax')->default(0)->description('in cents');
             $table->float('tax_percentage')->default(0);
