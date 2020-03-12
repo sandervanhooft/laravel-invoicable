@@ -14,7 +14,6 @@ class Invoice extends Model
 
     use SoftDeletes;
 
-
     /**
      * The attributes that are mass assignable.
      *
@@ -73,17 +72,26 @@ class Invoice extends Model
      * Use this if the amount does not yet include tax.
      * @param Int $amount The amount in cents, excluding taxes
      * @param String $description The description
-     * @param Float $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
+     * @param int $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
+     * @param $invoicable_id
+     * @param $invoicable_type
      * @return Illuminate\Database\Eloquent\Model  This instance after recalculation
      */
-    public function addAmountExclTax($amount, $description, $taxPercentage = 0)
-    {
+    public function addAmountExclTax(
+        $amount,
+        $description,
+        $taxPercentage = 0,
+        $invoicable_id,
+        $invoicable_type
+    ) {
         $tax = $amount * $taxPercentage;
         $this->lines()->create([
             'amount' => $amount + $tax,
             'description' => $description,
             'tax' => $tax,
             'tax_percentage' => $taxPercentage,
+            'invoicable_id' =>  $invoicable_id,
+            'invoicable_type' =>  $invoicable_type,
         ]);
         return $this->recalculate();
     }
@@ -92,17 +100,28 @@ class Invoice extends Model
      * Use this if the amount already includes tax.
      * @param Int $amount The amount in cents, including taxes
      * @param String $description The description
-     * @param Float $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
+     * @param int $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
+     * @param $invoicable_id
+     * @param $invoicable_type
      * @return Illuminate\Database\Eloquent\Model  This instance after recalculation
      */
-    public function addAmountInclTax($amount, $description, $taxPercentage = 0)
-    {
+    public function addAmountInclTax(
+        $amount,
+        $description,
+        $taxPercentage = 0,
+        $invoicable_id,
+        $invoicable_type
+    ) {
+
         $this->lines()->create([
             'amount' => $amount,
             'description' => $description,
             'tax' => $amount - $amount / (1 + $taxPercentage),
             'tax_percentage' => $taxPercentage,
+            'invoicable_id' =>  $invoicable_id,
+            'invoicable_type' =>  $invoicable_type
         ]);
+
         return $this->recalculate();
     }
 
