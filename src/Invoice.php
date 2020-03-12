@@ -21,7 +21,7 @@ class Invoice extends Model
      */
     protected $fillable = [
         'invoicable_id', 'invoicable_type', 'tax',  'total', 'discount', 'currency',
-        'reference', 'status', 'receiver_info', 'sender_info', 'payment_info', 'note'
+        'reference', 'status', 'receiver_info', 'sender_info', 'payment_info', 'note', 'is_bill'
     ];
 
     protected $guarded = [];

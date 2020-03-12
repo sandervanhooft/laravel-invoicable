@@ -29,6 +29,8 @@ class CreateInvoicesTables extends Migration
             $table->text('sender_info')->nullable();
             $table->text('payment_info')->nullable();
             $table->text('note')->nullable();
+            $table->boolean('is_bill')->default(false);
+
             $table->timestamps();
             $table->softDeletes();
 
