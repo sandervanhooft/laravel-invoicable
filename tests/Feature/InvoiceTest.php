@@ -4,6 +4,7 @@ namespace SanderVanHooft\Invoicable\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use SanderVanHooft\Invoicable\AbstractTestCase;
+use SanderVanHooft\Invoicable\BillTestModel;
 use SanderVanHooft\Invoicable\CustomerTestModel;
 use SanderVanHooft\Invoicable\Invoice;
 use SanderVanHooft\Invoicable\ProductTestModel;
@@ -14,6 +15,7 @@ class InvoiceTest extends AbstractTestCase
 
     private $productModel;
     private $customerModel;
+    private $billModel;
 
     public function setUp(): void
     {
@@ -24,6 +26,10 @@ class InvoiceTest extends AbstractTestCase
 
         $this->productModel = new ProductTestModel();
         $this->productModel->save();
+
+        $this->billModel = new BillTestModel();
+        $this->billModel->save();
+        $this->bill = $this->customerModel->bills()->create([])->fresh();
     }
 
     /** @test */
@@ -159,5 +165,85 @@ class InvoiceTest extends AbstractTestCase
         $this->assertNotNull($this->invoice->invoicable);
         $this->assertEquals(CustomerTestModel::class, get_class($this->invoice->invoicable));
         $this->assertEquals($this->customerModel->id, $this->invoice->invoicable->id);
+    }
+
+    /**
+     * @test
+     */
+    public function IfIsFreeEqualToTrueShouldBeAmountEqualToZero()
+    {
+        $invoicable_id = $this->productModel->id;
+        $invoicable_type = get_class($this->productModel);
+        $this->invoice = $this->customerModel->invoices()->create([])->fresh();
+
+        $this->invoice->addAmountExclTaxWithAllValues(0, 'Some description', 0, $invoicable_id, $invoicable_type, true, false);
+        $this->invoice->addAmountExclTaxWithAllValues(121, 'Some description', 0.21, $invoicable_id, $invoicable_type, false, false);
+
+        $this->assertEquals(0, $this->invoice->lines()->first()->amount);
+
+    }
+
+    /**
+     * @test
+     */
+    public function IfIsFreeEqualToFalseShouldBeAmountGreaterThanZero()
+    {
+        $invoicable_id = $this->productModel->id;
+        $invoicable_type = get_class($this->productModel);
+        $this->invoice = $this->customerModel->invoices()->create([])->fresh();
+
+        $this->invoice->addAmountExclTax(0, 'Some description', 0, $invoicable_id, $invoicable_type);
+        $this->invoice->addAmountExclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
+
+        $this->assertGreaterThan(0, $this->invoice->lines->last()->amount);
+
+    }
+
+    /**
+     * @test
+     */
+    public function IfIsComplimentaryEqualToTrueShouldBeAmountEqualToZero()
+    {
+        $invoicable_id = $this->productModel->id;
+        $invoicable_type = get_class($this->productModel);
+        $this->invoice = $this->customerModel->invoices()->create([])->fresh();
+
+        $this->invoice->addAmountExclTaxWithAllValues(0, 'Some description', 0, $invoicable_id, $invoicable_type,false, true);
+        $this->invoice->addAmountExclTaxWithAllValues(121, 'Some description', 0.21, $invoicable_id, $invoicable_type, false, false);
+
+        $this->assertEquals(0, $this->invoice->lines()->first()->amount);
+
+    }
+
+    /**
+     * @test
+     */
+    public function IfIsComplimentaryEqualToFalseShouldBeAmountGreaterThanZero()
+    {
+        $invoicable_id = $this->productModel->id;
+        $invoicable_type = get_class($this->productModel);
+        $this->invoice = $this->customerModel->invoices()->create([])->fresh();
+
+        $this->invoice->addAmountExclTax(0, 'Some description', 0, $invoicable_id, $invoicable_type);
+        $this->invoice->addAmountExclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
+
+        $this->assertGreaterThan(0, $this->invoice->lines->last()->amount);
+
+    }
+
+    /**
+     * @test
+     */
+    public function IfIsBillEqualToTrueShouldBeReturnSumBills()
+    {
+        $invoicable_id = $this->productModel->id;
+        $invoicable_type = get_class($this->productModel);
+        $this->billModel = $this->customerModel->invoices()->create([])->fresh();
+
+        $this->billModel->addAmountExclTax(0, 'Some description', 0, $invoicable_id, $invoicable_type);
+        $this->billModel->addAmountExclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
+
+        $this->assertGreaterThan(0, $this->invoice->lines->last()->amount);
+
     }
 }

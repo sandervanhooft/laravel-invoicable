@@ -209,4 +209,28 @@ class Invoice extends Model
     {
         return $this->morphTo();
     }
+
+
+    public function addAmountExclTaxWithAllValues(
+        $amount,
+        $description,
+        $taxPercentage = 0,
+        $invoicable_id,
+        $invoicable_type,
+        $is_free,
+        $is_complimentary
+    ) {
+        $tax = $amount * $taxPercentage;
+        $this->lines()->create([
+            'amount' => $amount + $tax,
+            'description' => $description,
+            'tax' => $tax,
+            'tax_percentage' => $taxPercentage,
+            'invoicable_id' =>  $invoicable_id,
+            'invoicable_type' => $invoicable_type,
+            'is_free'         => $is_free,
+            'is_complimentary' => $is_complimentary
+        ]);
+        return $this;
+    }
 }
