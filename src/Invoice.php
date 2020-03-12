@@ -43,6 +43,11 @@ class Invoice extends Model
             $model->status = config('invoicable.default_status', 'concept');
             $model->reference = InvoiceReferenceGenerator::generate();
         });
+
+        static::addGlobalScope(function ($query) {
+            $query
+                ->where('is_bill', false);
+        });
     }
 
     /**
@@ -63,7 +68,6 @@ class Invoice extends Model
     public function addAmountExclTax($amount, $description, $taxPercentage = 0)
     {
         $tax = $amount * $taxPercentage;
-
         $this->lines()->create([
             'amount' => $amount + $tax,
             'description' => $description,
