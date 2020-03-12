@@ -20,9 +20,10 @@ class Invoice extends Model
      * @var array
      */
     protected $fillable = [
-        'invoicable_id', 'invoicable_type',  'total', 'discount', 'tax', 'currency',
-        'reference', 'status', 'receiver_info', 'sender_info', 'payment_info', 'note', 'discount'
+        'invoicable_id', 'invoicable_type', 'tax',  'total', 'discount', 'currency',
+        'reference', 'status', 'receiver_info', 'sender_info', 'payment_info', 'note'
     ];
+
     protected $guarded = [];
 
     public $incrementing = false;
