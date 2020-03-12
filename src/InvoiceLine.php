@@ -3,11 +3,26 @@
 namespace SanderVanHooft\Invoicable;
 
 use Illuminate\Database\Eloquent\Model;
-use SanderVanHooft\Invoicable\Invoice;
+use Illuminate\Support\Str;
 
 class InvoiceLine extends Model
 {
     protected $guarded = [];
+
+    public $incrementing = false;
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            /**
+             * @var \Illuminate\Database\Eloquent\Model $model
+             */
+            if (!$model->getKey()) {
+                $model->{$model->getKeyName()} = Str::uuid()->toString();
+            }
+        });
+    }
 
     public function invoice()
     {

@@ -4,12 +4,46 @@ namespace SanderVanHooft\Invoicable;
 
 use Dompdf\Dompdf;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class Invoice extends Model
 {
+
+    use SoftDeletes;
+
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'invoicable_id', 'invoicable_type',  'total', 'discount', 'tax', 'currency',
+        'reference', 'status', 'receiver_info', 'sender_info', 'payment_info', 'note', 'discount'
+    ];
     protected $guarded = [];
+
+    public $incrementing = false;
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            /**
+             * @var \Illuminate\Database\Eloquent\Model $model
+             */
+            if (!$model->getKey()) {
+                $model->{$model->getKeyName()} = Str::uuid()->toString();
+            }
+
+            $model->currency = config('invoicable.default_currency', 'EUR');
+            $model->status = config('invoicable.default_status', 'concept');
+            $model->reference = InvoiceReferenceGenerator::generate();
+        });
+    }
 
     /**
      * Get the invoice lines for this invoice
@@ -29,6 +63,7 @@ class Invoice extends Model
     public function addAmountExclTax($amount, $description, $taxPercentage = 0)
     {
         $tax = $amount * $taxPercentage;
+
         $this->lines()->create([
             'amount' => $amount + $tax,
             'description' => $description,
@@ -138,16 +173,5 @@ class Invoice extends Model
     public function invoicable()
     {
         return $this->morphTo();
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->currency = config('invoicable.default_currency', 'EUR');
-            $model->status = config('invoicable.default_status', 'concept');
-            $model->reference = InvoiceReferenceGenerator::generate();
-        });
     }
 }
