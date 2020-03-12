@@ -11,6 +11,17 @@ class InvoiceLine extends Model
 
     public $incrementing = false;
 
+    /**
+     * InvoiceLine constructor.
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->setTable(config('invoicable.table_names.invoice_lines'));
+    }
+
     protected static function boot()
     {
         parent::boot();

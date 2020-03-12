@@ -13,7 +13,9 @@ class CreateInvoicesTables extends Migration
      */
     public function up()
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        $tableNames = config('invoicable.table_names');
+
+        Schema::create($tableNames['invoices'], function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('invoicable_id');
             $table->string('invoicable_type');
@@ -33,7 +35,7 @@ class CreateInvoicesTables extends Migration
             $table->index(['invoicable_id', 'invoicable_type']);
         });
 
-        Schema::create('invoice_lines', function (Blueprint $table) {
+        Schema::create($tableNames['invoice_lines'], function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('amount')->default(0)->description('in cents, including tax');
             $table->bigInteger('tax')->default(0)->description('in cents');
@@ -63,7 +65,9 @@ class CreateInvoicesTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoice_lines');
-        Schema::dropIfExists('invoices');
+        $tableNames = config('invoicable.table_names');
+
+        Schema::dropIfExists($tableNames['invoice_lines']);
+        Schema::dropIfExists($tableNames['invoices']);
     }
 }
