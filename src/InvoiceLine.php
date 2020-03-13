@@ -11,6 +11,11 @@ class InvoiceLine extends Model
 
     public $incrementing = false;
 
+    protected $fillable = [
+        'amount', 'tax', 'tax_percentage', 'invoice_id', 'description', 'invoicable_id', 'invoicable_type',
+        'name', 'discount', 'quantity', 'is_free', 'is_complimentary'
+    ];
+
     /**
      * InvoiceLine constructor.
      * @param array $attributes

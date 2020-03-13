@@ -15,7 +15,12 @@ class CreateTestModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('test_models', function (Blueprint $table) {
+        Schema::create('product_test_models', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->timestamps();
+        });
+
+        Schema::create('customer_test_models', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamps();
         });
@@ -28,6 +33,7 @@ class CreateTestModelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('test_models');
+        Schema::dropIfExists('product_test_models');
+        Schema::dropIfExists('customer_test_models');
     }
 }

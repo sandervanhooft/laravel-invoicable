@@ -29,6 +29,8 @@ class CreateInvoicesTables extends Migration
             $table->text('sender_info')->nullable();
             $table->text('payment_info')->nullable();
             $table->text('note')->nullable();
+            $table->boolean('is_bill')->default(false);
+
             $table->timestamps();
             $table->softDeletes();
 
@@ -44,7 +46,7 @@ class CreateInvoicesTables extends Migration
             $table->char('description', 255);
             $table->uuid('invoicable_id');
             $table->string('invoicable_type');
-            $table->char('name', 255);
+            $table->char('name', 255)->nullable();
             $table->bigInteger('discount')->default(0)->description('in cents');
             $table->bigInteger('quantity')->default(1);
             $table->boolean('is_free')->default(false);

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use SanderVanHooft\Invoicable\Scopes\InvoiceScope;
 use Symfony\Component\HttpFoundation\Response;
 
 class Invoice extends Model
@@ -14,16 +15,16 @@ class Invoice extends Model
 
     use SoftDeletes;
 
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'invoicable_id', 'invoicable_type',  'total', 'discount', 'tax', 'currency',
-        'reference', 'status', 'receiver_info', 'sender_info', 'payment_info', 'note', 'discount'
+        'invoicable_id', 'invoicable_type', 'tax',  'total', 'discount', 'currency',
+        'reference', 'status', 'receiver_info', 'sender_info', 'payment_info', 'note', 'is_bill'
     ];
+
     protected $guarded = [];
 
     public $incrementing = false;
@@ -42,6 +43,7 @@ class Invoice extends Model
     protected static function boot()
     {
         parent::boot();
+        static::addGlobalScope(new InvoiceScope());
         static::creating(function ($model) {
             /**
              * @var \Illuminate\Database\Eloquent\Model $model
@@ -50,14 +52,10 @@ class Invoice extends Model
                 $model->{$model->getKeyName()} = Str::uuid()->toString();
             }
 
-            $model->currency = config('invoicable.default_currency', 'EUR');
-            $model->status = config('invoicable.default_status', 'concept');
+            $model->is_bill   = false;
+            $model->currency  = config('invoicable.default_currency', 'EUR');
+            $model->status    = config('invoicable.default_status', 'concept');
             $model->reference = InvoiceReferenceGenerator::generate();
-        });
-
-        static::addGlobalScope(function ($query) {
-            $query
-                ->where('is_bill', false);
         });
     }
 
@@ -73,17 +71,26 @@ class Invoice extends Model
      * Use this if the amount does not yet include tax.
      * @param Int $amount The amount in cents, excluding taxes
      * @param String $description The description
-     * @param Float $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
+     * @param int $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
+     * @param $invoicable_id
+     * @param $invoicable_type
      * @return Illuminate\Database\Eloquent\Model  This instance after recalculation
      */
-    public function addAmountExclTax($amount, $description, $taxPercentage = 0)
-    {
+    public function addAmountExclTax(
+        $amount,
+        $description,
+        $taxPercentage = 0,
+        $invoicable_id,
+        $invoicable_type
+    ) {
         $tax = $amount * $taxPercentage;
         $this->lines()->create([
             'amount' => $amount + $tax,
             'description' => $description,
             'tax' => $tax,
             'tax_percentage' => $taxPercentage,
+            'invoicable_id' =>  $invoicable_id,
+            'invoicable_type' =>  $invoicable_type,
         ]);
         return $this->recalculate();
     }
@@ -92,17 +99,28 @@ class Invoice extends Model
      * Use this if the amount already includes tax.
      * @param Int $amount The amount in cents, including taxes
      * @param String $description The description
-     * @param Float $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
+     * @param int $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
+     * @param $invoicable_id
+     * @param $invoicable_type
      * @return Illuminate\Database\Eloquent\Model  This instance after recalculation
      */
-    public function addAmountInclTax($amount, $description, $taxPercentage = 0)
-    {
+    public function addAmountInclTax(
+        $amount,
+        $description,
+        $taxPercentage = 0,
+        $invoicable_id,
+        $invoicable_type
+    ) {
+
         $this->lines()->create([
             'amount' => $amount,
             'description' => $description,
             'tax' => $amount - $amount / (1 + $taxPercentage),
             'tax_percentage' => $taxPercentage,
+            'invoicable_id' =>  $invoicable_id,
+            'invoicable_type' =>  $invoicable_type
         ]);
+
         return $this->recalculate();
     }
 
@@ -175,12 +193,25 @@ class Invoice extends Model
         ]);
     }
 
-    public static function findByReference($reference)
+    /**
+     * Find invoice model.
+     *
+     * @param string $reference
+     * @return Invoice|null
+     */
+    public static function findByReference(string $reference): ?Invoice
     {
         return static::where('reference', $reference)->first();
     }
 
-    public static function findByReferenceOrFail($reference)
+    /**
+     * Find or fail invoice model.
+     *
+     * @param string $reference
+     * @return Invoice
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public static function findByReferenceOrFail(string $reference): Invoice
     {
         return static::where('reference', $reference)->firstOrFail();
     }
@@ -188,5 +219,29 @@ class Invoice extends Model
     public function invoicable()
     {
         return $this->morphTo();
+    }
+
+
+    public function addAmountExclTaxWithAllValues(
+        $amount,
+        $description,
+        $taxPercentage = 0,
+        $invoicable_id,
+        $invoicable_type,
+        $is_free,
+        $is_complimentary
+    ) {
+        $tax = $amount * $taxPercentage;
+        $this->lines()->create([
+            'amount' => $amount + $tax,
+            'description' => $description,
+            'tax' => $tax,
+            'tax_percentage' => $taxPercentage,
+            'invoicable_id' =>  $invoicable_id,
+            'invoicable_type' => $invoicable_type,
+            'is_free'         => $is_free,
+            'is_complimentary' => $is_complimentary
+        ]);
+        return $this;
     }
 }

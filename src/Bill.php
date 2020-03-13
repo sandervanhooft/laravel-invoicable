@@ -1,33 +1,16 @@
 <?php
-
-
 namespace SanderVanHooft\Invoicable;
 
 use SanderVanHooft\Invoicable\Invoice as BaseInvoice;
-use SanderVanHooft\Invoicable\InvoiceLine;
+use SanderVanHooft\Invoicable\Scopes\BillScope;
+use SanderVanHooft\Invoicable\Scopes\InvoiceScope;
 
 class Bill extends BaseInvoice
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'invoicable_id', 'invoicable_type', 'is_bill', 'price', 'discount', 'tax', 'currency',
-        'reference', 'status', 'receiver_info', 'sender_info', 'payment_info', 'note'
-    ];
 
-    /**
-     * Bill constructor.
-     * @param array $attributes
-     */
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
+    protected $guarded = [];
 
-        $this->setTable(config('invoicable.table_names.invoices'));
-    }
+    public $incrementing = false;
 
     /**
      * The "booting" method of the model.
@@ -37,15 +20,40 @@ class Bill extends BaseInvoice
     protected static function boot()
     {
         parent::boot();
-
-        static::addGlobalScope(function ($query) {
-            $query
-                ->where('is_bill', true);
-        });
-
+        static::addGlobalScope(new BillScope());
         static::creating(function ($model) {
             $model->is_bill = true;
         });
     }
 
+    /**
+     * Get the invoice lines for this invoice
+     */
+    public function lines()
+    {
+        return $this->hasMany(InvoiceLine::class, 'invoice_id')->withoutGlobalScope(InvoiceScope::class);
+    }
+
+    /**
+     * Find invoice model.
+     *
+     * @param string $reference
+     * @return Invoice|null
+     */
+    public static function findByReference(string $reference): ?Invoice
+    {
+        return static::where('reference', $reference)->withoutGlobalScope(InvoiceScope::class)->first();
+    }
+
+    /**
+     * Find or fail invoice model.
+     *
+     * @param string $reference
+     * @return Invoice
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public static function findByReferenceOrFail(string $reference): Invoice
+    {
+        return static::where('reference', $reference)->withoutGlobalScope(InvoiceScope::class)->firstOrFail();
+    }
 }
