@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use SanderVanHooft\Invoicable\Scopes\InvoiceScope;
 use Symfony\Component\HttpFoundation\Response;
 
 class Invoice extends Model
@@ -42,6 +43,7 @@ class Invoice extends Model
     protected static function boot()
     {
         parent::boot();
+        static::addGlobalScope(new InvoiceScope());
         static::creating(function ($model) {
             /**
              * @var \Illuminate\Database\Eloquent\Model $model
@@ -53,11 +55,6 @@ class Invoice extends Model
             $model->currency = config('invoicable.default_currency', 'EUR');
             $model->status = config('invoicable.default_status', 'concept');
             $model->reference = InvoiceReferenceGenerator::generate();
-        });
-
-        static::addGlobalScope(function ($query) {
-            $query
-                ->where('is_bill', false);
         });
     }
 

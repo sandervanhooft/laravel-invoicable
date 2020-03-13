@@ -1,10 +1,10 @@
 <?php
-
-
 namespace SanderVanHooft\Invoicable;
 
 use Illuminate\Support\Str;
 use SanderVanHooft\Invoicable\Invoice as BaseInvoice;
+use SanderVanHooft\Invoicable\Scopes\BillScope;
+use SanderVanHooft\Invoicable\Scopes\InvoiceScope;
 
 class Bill extends BaseInvoice
 {
@@ -21,7 +21,7 @@ class Bill extends BaseInvoice
     protected static function boot()
     {
         parent::boot();
-
+        static::addGlobalScope(new BillScope());
         static::creating(function ($model) {
             /**
              * @var \Illuminate\Database\Eloquent\Model $model
@@ -34,10 +34,23 @@ class Bill extends BaseInvoice
             $model->status = config('invoicable.default_status', 'concept');
             $model->reference = InvoiceReferenceGenerator::generate();
         });
-        static::addGlobalScope(function ($query) {
-            $query
-                ->where('is_bill', true);
-        });
+    }
 
+    /**
+     * Get the invoice lines for this invoice
+     */
+    public function lines()
+    {
+        return $this->hasMany(InvoiceLine::class, 'invoice_id')->withoutGlobalScope(InvoiceScope::class);
+    }
+
+    public static function findByReference($reference)
+    {
+        return static::where('reference', $reference)->withoutGlobalScope(InvoiceScope::class)->first();
+    }
+
+    public static function findByReferenceOrFail($reference)
+    {
+        return static::where('reference', $reference)->withoutGlobalScope(InvoiceScope::class)->firstOrFail();
     }
 }

@@ -12,6 +12,7 @@ class InvoiceTest extends AbstractTestCase
 {
     use DatabaseMigrations;
 
+    private $invoice;
     private $productModel;
     private $customerModel;
     private $billModel;
