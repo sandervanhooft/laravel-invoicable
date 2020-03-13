@@ -52,8 +52,9 @@ class Invoice extends Model
                 $model->{$model->getKeyName()} = Str::uuid()->toString();
             }
 
-            $model->currency = config('invoicable.default_currency', 'EUR');
-            $model->status = config('invoicable.default_status', 'concept');
+            $model->is_bill   = false;
+            $model->currency  = config('invoicable.default_currency', 'EUR');
+            $model->status    = config('invoicable.default_status', 'concept');
             $model->reference = InvoiceReferenceGenerator::generate();
         });
     }
@@ -192,12 +193,25 @@ class Invoice extends Model
         ]);
     }
 
-    public static function findByReference($reference)
+    /**
+     * Find invoice model.
+     *
+     * @param string $reference
+     * @return Invoice|null
+     */
+    public static function findByReference(string $reference): ?Invoice
     {
         return static::where('reference', $reference)->first();
     }
 
-    public static function findByReferenceOrFail($reference)
+    /**
+     * Find or fail invoice model.
+     *
+     * @param string $reference
+     * @return Invoice
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public static function findByReferenceOrFail(string $reference): Invoice
     {
         return static::where('reference', $reference)->firstOrFail();
     }
