@@ -8,7 +8,7 @@ use SanderVanHooft\Invoicable\CustomerTestModel;
 use SanderVanHooft\Invoicable\Invoice;
 use SanderVanHooft\Invoicable\ProductTestModel;
 
-class InvoiceTest extends AbstractTestCase
+class BillTest extends AbstractTestCase
 {
     use DatabaseMigrations;
 
@@ -219,11 +219,27 @@ class InvoiceTest extends AbstractTestCase
         $invoicable_type = get_class($this->productModel);
         $this->invoice = $this->customerModel->invoices()->create([])->fresh();
 
-        $this->invoice->addAmountExclTax(0, 'Some description', 0, $invoicable_id, $invoicable_type);
-        $this->invoice->addAmountExclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
+        $this->invoice->addAmountExclTax($this->invoice->id, 0, 'Some description', 0, $invoicable_id, $invoicable_type);
+        $this->invoice->addAmountExclTax($this->invoice->id, 121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
 
         $this->assertGreaterThan(0, $this->invoice->lines->last()->amount);
 
     }
 
+    /**
+     * @test
+     */
+    public function IfIsBillEqualToTrueShouldBeReturnSumBills()
+    {
+        $invoicable_id = $this->productModel->id;
+        $invoicable_type = get_class($this->productModel);
+        $this->billModel = $this->customerModel->bills()->create([])->fresh();
+
+        $this->billModel->addAmountExclTax(121, 'Some description', 0, $invoicable_id, $invoicable_type);
+        $this->billModel->addAmountExclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
+
+
+        $this->assertGreaterThan(0, $this->billModel->lines->last()->amount);
+
+    }
 }

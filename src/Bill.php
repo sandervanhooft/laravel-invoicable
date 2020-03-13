@@ -3,31 +3,15 @@
 
 namespace SanderVanHooft\Invoicable;
 
+use Illuminate\Support\Str;
 use SanderVanHooft\Invoicable\Invoice as BaseInvoice;
-use SanderVanHooft\Invoicable\InvoiceLine;
 
 class Bill extends BaseInvoice
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'invoicable_id', 'invoicable_type', 'is_bill', 'price', 'discount', 'tax', 'currency',
-        'reference', 'status', 'receiver_info', 'sender_info', 'payment_info', 'note'
-    ];
 
-    /**
-     * Bill constructor.
-     * @param array $attributes
-     */
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
+    protected $guarded = [];
 
-        $this->setTable(config('invoicable.table_names.invoices'));
-    }
+    public $incrementing = false;
 
     /**
      * The "booting" method of the model.
@@ -38,14 +22,22 @@ class Bill extends BaseInvoice
     {
         parent::boot();
 
+        static::creating(function ($model) {
+            /**
+             * @var \Illuminate\Database\Eloquent\Model $model
+             */
+            if (!$model->getKey()) {
+                $model->{$model->getKeyName()} = Str::uuid()->toString();
+            }
+            $model->is_bill = true;
+            $model->currency = config('invoicable.default_currency', 'EUR');
+            $model->status = config('invoicable.default_status', 'concept');
+            $model->reference = InvoiceReferenceGenerator::generate();
+        });
         static::addGlobalScope(function ($query) {
             $query
                 ->where('is_bill', true);
         });
 
-        static::creating(function ($model) {
-            $model->is_bill = true;
-        });
     }
-
 }
