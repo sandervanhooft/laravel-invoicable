@@ -34,26 +34,4 @@ class Bill extends BaseInvoice
         return $this->hasMany(InvoiceLine::class, 'invoice_id')->withoutGlobalScope(InvoiceScope::class);
     }
 
-    /**
-     * Find invoice model.
-     *
-     * @param string $reference
-     * @return Invoice|null
-     */
-    public static function findByReference(string $reference): ?Invoice
-    {
-        return static::where('reference', $reference)->withoutGlobalScope(InvoiceScope::class)->first();
-    }
-
-    /**
-     * Find or fail invoice model.
-     *
-     * @param string $reference
-     * @return Invoice
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public static function findByReferenceOrFail(string $reference): Invoice
-    {
-        return static::where('reference', $reference)->withoutGlobalScope(InvoiceScope::class)->firstOrFail();
-    }
 }
