@@ -9,15 +9,15 @@
         "Laravel",
         "laravel-invoicable",
         "payments",
-        "NeptuneSoftware"
+        "neptunesoftware"
     ],
-    "homepage": "https://github.com/NeptuneSoftware/laravel-invoicable",
+    "homepage": "https://github.com/neptunesoftware/laravel-invoicable",
     "license": "MIT",
     "authors": [
         {
             "name": "Sander van Hooft",
-            "email": "info@NeptuneSoftware.com",
-            "homepage": "http://www.NeptuneSoftware.com",
+            "email": "info@neptunyazilim.com",
+            "homepage": "http://www.neptunyazilim.com",
             "role": "Developer"
         }
     ],

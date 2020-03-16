@@ -7,7 +7,7 @@
 
 Easy invoice creation for Laravel. Unlike Laravel Cashier, this package is payment gateway agnostic.
 
-If you're looking for Mollie payment processing, be sure to check out [laravel-payable-redirect-mollie](https://github.com/NeptuneSoftware/laravel-payable-redirect-mollie).
+If you're looking for Mollie payment processing, be sure to check out [laravel-payable-redirect-mollie](https://github.com/neptunesoftware/laravel-payable-redirect-mollie).
 
 ## Structure
 
@@ -156,7 +156,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details
 
 ## Security
 
-If you discover any security related issues, please email info@NeptuneSoftware.com instead of using the issue tracker.
+If you discover any security related issues, please email info@neptunyazilim.com instead of using the issue tracker.
 
 ## Credits
 
@@ -170,11 +170,11 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/sander-van-hooft/laravel-invoicable.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/NeptuneSoftware/laravel-invoicable/master.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/neptunesoftware/laravel-invoicable/master.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/sander-van-hooft/laravel-invoicable.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/sander-van-hooft/laravel-invoicable
-[link-travis]: https://travis-ci.org/NeptuneSoftware/laravel-invoicable
+[link-travis]: https://travis-ci.org/neptunesoftware/laravel-invoicable
 [link-downloads]: https://packagist.org/packages/sander-van-hooft/laravel-invoicable
-[link-author]: https://github.com/NeptuneSoftware
+[link-author]: https://github.com/neptunesoftware
 [link-contributors]: ../../contributors
