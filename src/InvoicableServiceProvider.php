@@ -3,6 +3,10 @@
 namespace SanderVanHooft\Invoicable;
 
 use Illuminate\Support\ServiceProvider;
+use SanderVanHooft\Invoicable\Services\BillService;
+use SanderVanHooft\Invoicable\Services\Interfaces\BillServiceInterface;
+use SanderVanHooft\Invoicable\Services\Interfaces\InvoiceServiceInterface;
+use SanderVanHooft\Invoicable\Services\InvoiceService;
 
 class InvoicableServiceProvider extends ServiceProvider
 {
@@ -30,6 +34,17 @@ class InvoicableServiceProvider extends ServiceProvider
              __DIR__.'/../database/migrations/2017_06_17_163005_create_invoices_tables.php'
              => database_path('migrations/2017_06_17_163005_create_invoices_tables.php'),
          ], 'migrations');
+
+        $this->app->bind(InvoiceServiceInterface::class, function ($app) {
+            return new InvoiceService(
+                $app->make(Invoice::class)
+            );
+        });
+        $this->app->bind(BillServiceInterface::class, function ($app) {
+            return new BillService(
+                $app->make(Bill::class)
+            );
+        });
     }
 
     /**
