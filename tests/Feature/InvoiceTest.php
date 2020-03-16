@@ -1,12 +1,12 @@
 <?php
 
-namespace SanderVanHooft\Invoicable\Feature;
+namespace NeptuneSoftware\Invoicable\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use SanderVanHooft\Invoicable\AbstractTestCase;
-use SanderVanHooft\Invoicable\CustomerTestModel;
-use SanderVanHooft\Invoicable\ProductTestModel;
-use SanderVanHooft\Invoicable\Services\InvoiceService;
+use NeptuneSoftware\Invoicable\AbstractTestCase;
+use NeptuneSoftware\Invoicable\CustomerTestModel;
+use NeptuneSoftware\Invoicable\ProductTestModel;
+use NeptuneSoftware\Invoicable\Services\InvoiceService;
 
 class InvoiceTest extends AbstractTestCase
 {

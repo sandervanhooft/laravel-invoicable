@@ -1,9 +1,9 @@
 <?php
-namespace SanderVanHooft\Invoicable;
+namespace NeptuneSoftware\Invoicable;
 
-use SanderVanHooft\Invoicable\Invoice as BaseInvoice;
-use SanderVanHooft\Invoicable\Scopes\BillScope;
-use SanderVanHooft\Invoicable\Scopes\InvoiceScope;
+use NeptuneSoftware\Invoicable\Invoice as BaseInvoice;
+use NeptuneSoftware\Invoicable\Scopes\BillScope;
+use NeptuneSoftware\Invoicable\Scopes\InvoiceScope;
 
 class Bill extends BaseInvoice
 {

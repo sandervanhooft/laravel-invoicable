@@ -1,9 +1,9 @@
 <?php
 
-namespace SanderVanHooft\Invoicable\Unit;
+namespace NeptuneSoftware\Invoicable\Unit;
 
-use SanderVanHooft\Invoicable\AbstractTestCase;
-use SanderVanHooft\Invoicable\MoneyFormatter;
+use NeptuneSoftware\Invoicable\AbstractTestCase;
+use NeptuneSoftware\Invoicable\MoneyFormatter;
 
 class MoneyFormatterTest extends AbstractTestCase
 {

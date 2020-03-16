@@ -1,9 +1,9 @@
 <?php
 
-namespace SanderVanHooft\Invoicable\IsInvoicable;
+namespace NeptuneSoftware\Invoicable\IsInvoicable;
 
-use SanderVanHooft\Invoicable\Bill;
-use SanderVanHooft\Invoicable\Invoice;
+use NeptuneSoftware\Invoicable\Bill;
+use NeptuneSoftware\Invoicable\Invoice;
 
 trait IsInvoicableTrait
 {

@@ -1,9 +1,9 @@
 <?php
 
 
-namespace SanderVanHooft\Invoicable\Services\Interfaces;
+namespace NeptuneSoftware\Invoicable\Services\Interfaces;
 
-use SanderVanHooft\Invoicable\Bill;
+use NeptuneSoftware\Invoicable\Bill;
 use Symfony\Component\HttpFoundation\Response;
 
 interface BillServiceInterface

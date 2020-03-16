@@ -1,12 +1,12 @@
 <?php
 
-namespace SanderVanHooft\Invoicable;
+namespace NeptuneSoftware\Invoicable;
 
 use Illuminate\Support\ServiceProvider;
-use SanderVanHooft\Invoicable\Services\BillService;
-use SanderVanHooft\Invoicable\Services\Interfaces\BillServiceInterface;
-use SanderVanHooft\Invoicable\Services\Interfaces\InvoiceServiceInterface;
-use SanderVanHooft\Invoicable\Services\InvoiceService;
+use NeptuneSoftware\Invoicable\Services\BillService;
+use NeptuneSoftware\Invoicable\Services\Interfaces\BillServiceInterface;
+use NeptuneSoftware\Invoicable\Services\Interfaces\InvoiceServiceInterface;
+use NeptuneSoftware\Invoicable\Services\InvoiceService;
 
 class InvoicableServiceProvider extends ServiceProvider
 {

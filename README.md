@@ -7,7 +7,7 @@
 
 Easy invoice creation for Laravel. Unlike Laravel Cashier, this package is payment gateway agnostic.
 
-If you're looking for Mollie payment processing, be sure to check out [laravel-payable-redirect-mollie](https://github.com/sandervanhooft/laravel-payable-redirect-mollie).
+If you're looking for Mollie payment processing, be sure to check out [laravel-payable-redirect-mollie](https://github.com/NeptuneSoftware/laravel-payable-redirect-mollie).
 
 ## Structure
 
@@ -33,14 +33,14 @@ Next, you must install the service provider if you work with Laravel 5.4:
 // config/app.php
 'providers' => [
     ...
-    SanderVanHooft\Invoicable\InvoicableServiceProvider::class,
+    NeptuneSoftware\Invoicable\InvoicableServiceProvider::class,
 ];
 ```
 
 You can publish the migration with:
 
 ``` bash
-$ php artisan vendor:publish --provider="SanderVanHooft\Invoicable\InvoicableServiceProvider" --tag="migrations"
+$ php artisan vendor:publish --provider="NeptuneSoftware\Invoicable\InvoicableServiceProvider" --tag="migrations"
 ```
 
 After the migration has been published you can create the invoices and invoice_lines tables by running the migrations:
@@ -52,7 +52,7 @@ $ php artisan migrate
 Optionally, you can also publish the `invoicable.php` config file with:
 
 ``` bash
-$ php artisan vendor:publish --provider="SanderVanHooft\Invoicable\InvoicableServiceProvider" --tag="config"
+$ php artisan vendor:publish --provider="NeptuneSoftware\Invoicable\InvoicableServiceProvider" --tag="config"
 ```
 
 This is what the default config file looks like:
@@ -69,7 +69,7 @@ return [
 If you'd like to override the design of the invoice blade view and pdf, publish the view:
 
 ``` bash
-$ php artisan vendor:publish --provider="SanderVanHooft\Invoicable\InvoicableServiceProvider" --tag="views"
+$ php artisan vendor:publish --provider="NeptuneSoftware\Invoicable\InvoicableServiceProvider" --tag="views"
 ```
 
 You can now edit `receipt.blade.php` in `<project_root>/resources/views/invoicable/receipt.blade.php` to match your style.
@@ -83,7 +83,7 @@ Add the invoicable trait to the Eloquent model which needs to be invoiced (typic
 
 ``` php
 use Illuminate\Database\Eloquent\Model;
-use SanderVanHooft\Invoicable\IsInvoicable\IsInvoicableTrait;
+use NeptuneSoftware\Invoicable\IsInvoicable\IsInvoicableTrait;
 
 class Order extends Model
 {
@@ -156,7 +156,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details
 
 ## Security
 
-If you discover any security related issues, please email info@sandervanhooft.com instead of using the issue tracker.
+If you discover any security related issues, please email info@NeptuneSoftware.com instead of using the issue tracker.
 
 ## Credits
 
@@ -170,11 +170,11 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/sander-van-hooft/laravel-invoicable.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/sandervanhooft/laravel-invoicable/master.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/NeptuneSoftware/laravel-invoicable/master.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/sander-van-hooft/laravel-invoicable.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/sander-van-hooft/laravel-invoicable
-[link-travis]: https://travis-ci.org/sandervanhooft/laravel-invoicable
+[link-travis]: https://travis-ci.org/NeptuneSoftware/laravel-invoicable
 [link-downloads]: https://packagist.org/packages/sander-van-hooft/laravel-invoicable
-[link-author]: https://github.com/sandervanhooft
+[link-author]: https://github.com/NeptuneSoftware
 [link-contributors]: ../../contributors

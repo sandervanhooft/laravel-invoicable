@@ -1,12 +1,12 @@
 <?php
 
 
-namespace SanderVanHooft\Invoicable;
+namespace NeptuneSoftware\Invoicable;
 
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use SanderVanHooft\Invoicable\IsInvoicable\IsInvoicableTrait;
+use NeptuneSoftware\Invoicable\IsInvoicable\IsInvoicableTrait;
 
 class CustomerTestModel extends Model
 {

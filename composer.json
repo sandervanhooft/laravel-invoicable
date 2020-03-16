@@ -9,15 +9,15 @@
         "Laravel",
         "laravel-invoicable",
         "payments",
-        "sandervanhooft"
+        "NeptuneSoftware"
     ],
-    "homepage": "https://github.com/SanderVanHooft/laravel-invoicable",
+    "homepage": "https://github.com/NeptuneSoftware/laravel-invoicable",
     "license": "MIT",
     "authors": [
         {
             "name": "Sander van Hooft",
-            "email": "info@sandervanhooft.com",
-            "homepage": "http://www.sandervanhooft.com",
+            "email": "info@NeptuneSoftware.com",
+            "homepage": "http://www.NeptuneSoftware.com",
             "role": "Developer"
         }
     ],
@@ -35,12 +35,12 @@
     },
     "autoload": {
         "psr-4": {
-            "SanderVanHooft\\Invoicable\\": "src"
+            "NeptuneSoftware\\Invoicable\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "SanderVanHooft\\Invoicable\\": "tests"
+            "NeptuneSoftware\\Invoicable\\": "tests"
         }
     },
     "scripts": {
@@ -54,7 +54,7 @@
         },
         "laravel": {
             "providers": [
-                "SanderVanHooft\\Invoicable\\InvoicableServiceProvider"
+                "NeptuneSoftware\\Invoicable\\InvoicableServiceProvider"
             ]
         }
     },

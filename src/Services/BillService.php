@@ -1,14 +1,14 @@
 <?php
 
 
-namespace SanderVanHooft\Invoicable\Services;
+namespace NeptuneSoftware\Invoicable\Services;
 
 use Dompdf\Dompdf;
 use Illuminate\Support\Facades\View;
-use SanderVanHooft\Invoicable\Bill;
-use SanderVanHooft\Invoicable\MoneyFormatter;
-use SanderVanHooft\Invoicable\Scopes\InvoiceScope;
-use SanderVanHooft\Invoicable\Services\Interfaces\BillServiceInterface;
+use NeptuneSoftware\Invoicable\Bill;
+use NeptuneSoftware\Invoicable\MoneyFormatter;
+use NeptuneSoftware\Invoicable\Scopes\InvoiceScope;
+use NeptuneSoftware\Invoicable\Services\Interfaces\BillServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class BillService implements BillServiceInterface
