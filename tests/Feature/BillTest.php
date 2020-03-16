@@ -7,6 +7,7 @@ use SanderVanHooft\Invoicable\AbstractTestCase;
 use SanderVanHooft\Invoicable\Bill;
 use SanderVanHooft\Invoicable\CustomerTestModel;
 use SanderVanHooft\Invoicable\ProductTestModel;
+use SanderVanHooft\Invoicable\Services\BillService;
 
 class BillTest extends AbstractTestCase
 {
@@ -15,7 +16,7 @@ class BillTest extends AbstractTestCase
     private $bill;
     private $productModel;
     private $customerModel;
-    private $billModel;
+    private $service;
 
     public function setUp(): void
     {
@@ -26,13 +27,13 @@ class BillTest extends AbstractTestCase
 
         $this->productModel = new ProductTestModel();
         $this->productModel->save();
+
+        $this->service = new BillService($this->bill);
     }
 
     /** @test */
     public function canCreateInvoice()
     {
-        $this->bill = $this->customerModel->bills()->create([])->fresh();
-
         $this->assertEquals("0", (string)$this->bill->total);
         $this->assertEquals("0", (string)$this->bill->tax);
         $this->assertEquals("EUR", $this->bill->currency);
@@ -47,11 +48,11 @@ class BillTest extends AbstractTestCase
         $invoicable_type = get_class($this->productModel);
         $this->bill = $this->customerModel->bills()->create([])->fresh();
 
-        $this->bill->addAmountExclTax(100, 'Some description', 0.21, $invoicable_id, $invoicable_type);
-        $this->bill->addAmountExclTax(100, 'Some description', 0.21, $invoicable_id, $invoicable_type);
+        $bill = $this->service->addAmountExclTax(100, 'Some description', $invoicable_id, $invoicable_type, 0.21);
+        $bill = $this->service->addAmountExclTax(100, 'Some description', $invoicable_id, $invoicable_type, 0.21);
 
-        $this->assertEquals("242", (string)$this->bill->total);
-        $this->assertEquals("42", (string)$this->bill->tax);
+        $this->assertEquals("242", (string)$bill->total);
+        $this->assertEquals("42", (string)$bill->tax);
     }
 
     /** @test */
@@ -61,11 +62,11 @@ class BillTest extends AbstractTestCase
         $invoicable_type = get_class($this->productModel);
         $this->bill = $this->customerModel->bills()->create([])->fresh();
 
-        $this->bill->addAmountInclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
-        $this->bill->addAmountInclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
+        $bill = $this->service->addAmountInclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);
+        $bill = $this->service->addAmountInclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);
 
-        $this->assertEquals("242", (string)$this->bill->total);
-        $this->assertEquals("42", (string)$this->bill->tax);
+        $this->assertEquals("242", (string)$bill->total);
+        $this->assertEquals("42", (string)$bill->tax);
     }
 
     /** @test */
@@ -75,11 +76,11 @@ class BillTest extends AbstractTestCase
         $invoicable_type = get_class($this->productModel);
         $this->bill = $this->customerModel->bills()->create([])->fresh();
 
-        $this->bill->addAmountInclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
-        $this->bill->addAmountInclTax(-121, 'Some negative amount description', 0.21, $invoicable_id, $invoicable_type);
+        $bill = $this->service->addAmountInclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);
+        $bill = $this->service->addAmountInclTax(-121, 'Some negative amount description', $invoicable_id, $invoicable_type, 0.21);
 
-        $this->assertEquals("0", (string)$this->bill->total);
-        $this->assertEquals("0", (string)$this->bill->tax);
+        $this->assertEquals("0", (string)$bill->total);
+        $this->assertEquals("0", (string)$bill->tax);
     }
 
     /** @test */
@@ -98,9 +99,9 @@ class BillTest extends AbstractTestCase
         $invoicable_id = $this->productModel->id;
         $invoicable_type = get_class($this->productModel);
 
-        $this->bill->addAmountInclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
-        $this->bill->addAmountInclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
-        $view = $this->bill->view();
+        $bill = $this->service->addAmountInclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);
+        $bill = $this->service->addAmountInclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);
+        $view = $this->service->view();
         $rendered = $view->render(); // fails if view cannot be rendered
         $this->assertTrue(true);
     }
@@ -111,9 +112,9 @@ class BillTest extends AbstractTestCase
         $invoicable_id = $this->productModel->id;
         $invoicable_type = get_class($this->productModel);
 
-        $this->bill->addAmountInclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
-        $this->bill->addAmountInclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
-        $pdf = $this->bill->pdf();  // fails if pdf cannot be rendered
+        $this->service->addAmountInclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);
+        $this->service->addAmountInclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);
+        $pdf = $this->service->pdf();  // fails if pdf cannot be rendered
         $this->assertTrue(true);
     }
 
@@ -123,31 +124,29 @@ class BillTest extends AbstractTestCase
         $invoicable_id = $this->productModel->id;
         $invoicable_type = get_class($this->productModel);
 
-        $this->bill->addAmountInclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
-        $this->bill->addAmountInclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
-        $download = $this->bill->download(); // fails if pdf cannot be rendered
+        $this->service->addAmountInclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);
+        $this->service->addAmountInclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);
+        $download = $this->service->download(); // fails if pdf cannot be rendered
         $this->assertTrue(true);
     }
 
     /** @test */
     public function canFindByReference()
     {
-        $bill = $this->customerModel->bills()->create([]);
-        $this->assertEquals($bill->id, Bill::findByReference($bill->reference)->id);
+        $this->assertEquals($this->bill->id, $this->service->findByReference($this->bill->reference)->id);
     }
 
     /** @test */
     public function canFindByReferenceOrFail()
     {
-        $bill = $this->customerModel->bills()->create([]);
-        $this->assertEquals($bill->id, Bill::findByReferenceOrFail($bill->reference)->id);
+        $this->assertEquals($this->bill->id, $this->service->findByReferenceOrFail($this->bill->reference)->id);
     }
 
     /** @test */
     public function canFindByReferenceOrFailThrowsExceptionForNonExistingReference()
     {
         $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
-        Bill::findByReferenceOrFail('non-existing-reference');
+        $this->service->findByReferenceOrFail('non-existing-reference');
     }
 
     /** @test */
@@ -172,10 +171,24 @@ class BillTest extends AbstractTestCase
         $invoicable_type = get_class($this->productModel);
         $this->bill = $this->customerModel->bills()->create([])->fresh();
 
-        $this->bill->addAmountExclTaxWithAllValues(0, 'Some description', 0, $invoicable_id, $invoicable_type, true, false);
-        $this->bill->addAmountExclTaxWithAllValues(121, 'Some description', 0.21, $invoicable_id, $invoicable_type, false, false);
+        $bill = $this->service->addAmountExclTaxWithAllValues(
+            0,
+            'Some description',
+            $invoicable_id,
+            $invoicable_type,
+            true,
+            false,
+            0);
+        $bill = $this->service->addAmountExclTaxWithAllValues(
+            121,
+            'Some description',
+            $invoicable_id,
+            $invoicable_type,
+            false,
+            false,
+            0);
 
-        $this->assertEquals(0, $this->bill->lines()->first()->amount);
+        $this->assertEquals(0, $bill->lines()->first()->amount);
     }
 
     /**
@@ -187,10 +200,10 @@ class BillTest extends AbstractTestCase
         $invoicable_type = get_class($this->productModel);
         $this->bill = $this->customerModel->bills()->create([])->fresh();
 
-        $this->bill->addAmountExclTax(0, 'Some description', 0, $invoicable_id, $invoicable_type);
-        $this->bill->addAmountExclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
+        $bill = $this->service->addAmountExclTax(0, 'Some description', $invoicable_id, $invoicable_type, 0);
+        $bill = $this->service->addAmountExclTax(121, 'Some description', $invoicable_id, $invoicable_type,0.21);
 
-        $this->assertGreaterThan(0, $this->bill->lines->last()->amount);
+        $this->assertGreaterThan(0, $bill->lines->last()->amount);
     }
 
     /**
@@ -202,10 +215,26 @@ class BillTest extends AbstractTestCase
         $invoicable_type = get_class($this->productModel);
         $this->bill = $this->customerModel->bills()->create([])->fresh();
 
-        $this->bill->addAmountExclTaxWithAllValues(0, 'Some description', 0, $invoicable_id, $invoicable_type,false, true);
-        $this->bill->addAmountExclTaxWithAllValues(121, 'Some description', 0.21, $invoicable_id, $invoicable_type, false, false);
+        $bill = $this->service->addAmountExclTaxWithAllValues(
+            0,
+            'Some description',
+            $invoicable_id,
+            $invoicable_type,
+            false,
+            true,
+            0
+        );
+        $bill = $this->service->addAmountExclTaxWithAllValues(
+            121,
+            'Some description',
+            $invoicable_id,
+            $invoicable_type,
+            false,
+            false,
+            0.21
+        );
 
-        $this->assertEquals(0, $this->bill->lines()->first()->amount);
+        $this->assertEquals(0, $bill->lines()->first()->amount);
     }
 
     /**
@@ -217,10 +246,10 @@ class BillTest extends AbstractTestCase
         $invoicable_type = get_class($this->productModel);
         $this->bill = $this->customerModel->bills()->create([])->fresh();
 
-        $this->bill->addAmountExclTax(0, 'Some description', 0, $invoicable_id, $invoicable_type);
-        $this->bill->addAmountExclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
+        $bill = $this->service->addAmountExclTax(0, 'Some description', $invoicable_id, $invoicable_type, 0);
+        $bill = $this->service->addAmountExclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);
 
-        $this->assertGreaterThan(0, $this->bill->lines->last()->amount);
+        $this->assertGreaterThan(0, $bill->lines->last()->amount);
     }
 
     /**
@@ -230,12 +259,12 @@ class BillTest extends AbstractTestCase
     {
         $invoicable_id = $this->productModel->id;
         $invoicable_type = get_class($this->productModel);
-        $this->billModel = $this->customerModel->bills()->create([])->fresh();
+        $this->bill = $this->customerModel->bills()->create([])->fresh();
 
-        $this->billModel->addAmountExclTax(121, 'Some description', 0, $invoicable_id, $invoicable_type);
-        $this->billModel->addAmountExclTax(121, 'Some description', 0.21, $invoicable_id, $invoicable_type);
+        $bill = $this->service->addAmountExclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0);
+        $bill = $this->service->addAmountExclTax(121, 'Some description',  $invoicable_id, $invoicable_type, 0);
 
 
-        $this->assertGreaterThan(0, $this->billModel->lines->last()->amount);
+        $this->assertGreaterThan(0, $bill->lines->last()->amount);
     }
 }
