@@ -4,7 +4,6 @@ namespace SanderVanHooft\Invoicable\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use SanderVanHooft\Invoicable\AbstractTestCase;
-use SanderVanHooft\Invoicable\Bill;
 use SanderVanHooft\Invoicable\CustomerTestModel;
 use SanderVanHooft\Invoicable\ProductTestModel;
 use SanderVanHooft\Invoicable\Services\BillService;
@@ -178,7 +177,8 @@ class BillTest extends AbstractTestCase
             $invoicable_type,
             true,
             false,
-            0);
+            0
+        );
         $bill = $this->service->addAmountExclTaxWithAllValues(
             121,
             'Some description',
@@ -186,7 +186,8 @@ class BillTest extends AbstractTestCase
             $invoicable_type,
             false,
             false,
-            0);
+            0
+        );
 
         $this->assertEquals(0, $bill->lines()->first()->amount);
     }
@@ -201,7 +202,7 @@ class BillTest extends AbstractTestCase
         $this->bill = $this->customerModel->bills()->create([])->fresh();
 
         $bill = $this->service->addAmountExclTax(0, 'Some description', $invoicable_id, $invoicable_type, 0);
-        $bill = $this->service->addAmountExclTax(121, 'Some description', $invoicable_id, $invoicable_type,0.21);
+        $bill = $this->service->addAmountExclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);
 
         $this->assertGreaterThan(0, $bill->lines->last()->amount);
     }
@@ -261,8 +262,20 @@ class BillTest extends AbstractTestCase
         $invoicable_type = get_class($this->productModel);
         $this->bill = $this->customerModel->bills()->create([])->fresh();
 
-        $bill = $this->service->addAmountExclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0);
-        $bill = $this->service->addAmountExclTax(121, 'Some description',  $invoicable_id, $invoicable_type, 0);
+        $bill = $this->service->addAmountExclTax(
+            121,
+            'Some description',
+            $invoicable_id,
+            $invoicable_type,
+            0
+        );
+        $bill = $this->service->addAmountExclTax(
+            121,
+            'Some description',
+            $invoicable_id,
+            $invoicable_type,
+            0
+        );
 
 
         $this->assertGreaterThan(0, $bill->lines->last()->amount);

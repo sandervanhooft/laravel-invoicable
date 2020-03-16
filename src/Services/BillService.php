@@ -7,6 +7,7 @@ use Dompdf\Dompdf;
 use Illuminate\Support\Facades\View;
 use SanderVanHooft\Invoicable\Bill;
 use SanderVanHooft\Invoicable\MoneyFormatter;
+use SanderVanHooft\Invoicable\Scopes\InvoiceScope;
 use SanderVanHooft\Invoicable\Services\Interfaces\BillServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -161,7 +162,7 @@ class BillService implements BillServiceInterface
      */
     public static function findByReference(string $reference): ?Bill
     {
-        return Bill::where('reference', $reference)->first();
+        return Bill::where('reference', $reference)->withoutGlobalScope(InvoiceScope::class)->first();
     }
 
     /**
@@ -169,6 +170,6 @@ class BillService implements BillServiceInterface
      */
     public static function findByReferenceOrFail(string $reference): Bill
     {
-        return Bill::where('reference', $reference)->firstOrFail();
+        return Bill::where('reference', $reference)->withoutGlobalScope(InvoiceScope::class)->firstOrFail();
     }
 }
