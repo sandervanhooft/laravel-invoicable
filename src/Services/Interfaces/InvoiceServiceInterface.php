@@ -4,6 +4,7 @@
 namespace SanderVanHooft\Invoicable\Services\Interfaces;
 
 use SanderVanHooft\Invoicable\Invoice;
+use Symfony\Component\HttpFoundation\Response;
 
 interface InvoiceServiceInterface
 {
@@ -65,4 +66,45 @@ interface InvoiceServiceInterface
      * @return Invoice This instance
      */
     public function recalculate(): Invoice;
+
+    /**
+     * Get the View instance for the invoice.
+     *
+     * @param  array  $data
+     * @return \Illuminate\View\View
+     */
+    public function view(array $data = []): \Illuminate\Contracts\View\View;
+
+    /**
+     * Capture the invoice as a PDF and return the raw bytes.
+     *
+     * @param  array  $data
+     * @return string
+     */
+    public function pdf(array $data = []): string;
+
+    /**
+     * Create an invoice download response.
+     *
+     * @param  array  $data
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function download(array $data = []): Response;
+
+    /**
+     * Find invoice model.
+     *
+     * @param string $reference
+     * @return Invoice|null
+     */
+    public static function findByReference(string $reference): ?Invoice;
+
+    /**
+     * Find or fail invoice model.
+     *
+     * @param string $reference
+     * @return Invoice
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public static function findByReferenceOrFail(string $reference): Invoice;
 }
