@@ -4,6 +4,16 @@ All Notable changes to `laravel-invoicable` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## v0.1.0
+
+## Added
+
+- 
+
+---
+
+To follow original repository, please see [sandervanhooft/laravel-invoicable](https://github.com/sandervanhooft/laravel-invoicable).
+
 ## 1.0.8 - 2018-03-27
 
 ### Added

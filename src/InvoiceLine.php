@@ -12,7 +12,7 @@ class InvoiceLine extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'amount', 'tax', 'tax_percentage', 'invoice_id', 'description', 'invoicable_id', 'invoicable_type',
+        'amount', 'tax', 'tax_percentage', 'invoice_id', 'description', 'reference_id', 'reference_type',
         'name', 'discount', 'quantity', 'is_free', 'is_complimentary'
     ];
 

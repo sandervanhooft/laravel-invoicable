@@ -1,5 +1,5 @@
 {
-    "name": "sander-van-hooft/laravel-invoicable",
+    "name": "neptunesoftware/laravel-invoicable",
     "type": "library",
     "description": "Easy invoice generation using Laravel Eloquent",
     "keywords": [

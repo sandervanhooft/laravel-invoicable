@@ -4,6 +4,7 @@
 namespace NeptuneSoftware\Invoicable\Services;
 
 use Dompdf\Dompdf;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\View;
 use NeptuneSoftware\Invoicable\Bill;
 use NeptuneSoftware\Invoicable\MoneyFormatter;
@@ -14,9 +15,14 @@ use Symfony\Component\HttpFoundation\Response;
 class BillService implements BillServiceInterface
 {
     /**
-     * @var Bill
+     * @var Bill $billModel
      */
     private $billModel;
+
+    /**
+     * @var Model $reference
+     */
+    private $reference;
 
     /**
      * RoleService constructor.
@@ -27,25 +33,34 @@ class BillService implements BillServiceInterface
         $this->billModel = $billModel;
     }
 
+
+    /**
+     * @inheritDoc
+     */
+    public function setReference(Model $model): BillServiceInterface
+    {
+        $this->reference = $model;
+
+        return $this;
+    }
+
     /**
      * @inheritDoc
      */
     public function addAmountExclTax(
         $amount,
         $description,
-        $invoicable_id,
-        $invoicable_type,
         $taxPercentage = 0
     ): Bill {
         $tax = $amount * $taxPercentage;
 
         $this->billModel->lines()->create([
-            'amount' => $amount + $tax,
-            'description' => $description,
-            'tax' => $tax,
+            'amount'         => $amount + $tax,
+            'description'    => $description,
+            'tax'            => $tax,
             'tax_percentage' => $taxPercentage,
-            'invoicable_id' => $invoicable_id,
-            'invoicable_type' => $invoicable_type,
+            'reference_id'   => $this->reference->id,
+            'reference_type' => get_class($this->reference),
         ]);
         return $this->recalculate();
     }
@@ -56,46 +71,18 @@ class BillService implements BillServiceInterface
     public function addAmountInclTax(
         $amount,
         $description,
-        $invoicable_id,
-        $invoicable_type,
         $taxPercentage = 0
     ): Bill {
         $this->billModel->lines()->create([
-            'amount' => $amount,
-            'description' => $description,
-            'tax' => $amount - $amount / (1 + $taxPercentage),
+            'amount'         => $amount,
+            'description'    => $description,
+            'tax'            => $amount - $amount / (1 + $taxPercentage),
             'tax_percentage' => $taxPercentage,
-            'invoicable_id' => $invoicable_id,
-            'invoicable_type' => $invoicable_type
+            'reference_id'   => $this->reference->id,
+            'reference_type' => get_class($this->reference),
         ]);
 
         return $this->recalculate();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function addAmountExclTaxWithAllValues(
-        $amount,
-        $description,
-        $invoicable_id,
-        $invoicable_type,
-        $is_free,
-        $is_complimentary,
-        $taxPercentage = 0
-    ): Bill {
-        $tax = $amount * $taxPercentage;
-        $this->billModel->lines()->create([
-            'amount' => $amount + $tax,
-            'description' => $description,
-            'tax' => $tax,
-            'tax_percentage' => $taxPercentage,
-            'invoicable_id' =>  $invoicable_id,
-            'invoicable_type' => $invoicable_type,
-            'is_free'         => $is_free,
-            'is_complimentary' => $is_complimentary
-        ]);
-        return $this->billModel;
     }
 
     /**
