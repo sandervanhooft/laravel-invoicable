@@ -25,14 +25,22 @@ class BillService implements BillServiceInterface
     private $reference;
 
     /**
-     * RoleService constructor.
-     * @param Bill $billModel
+     * @inheritDoc
      */
-    public function __construct(Bill $billModel)
+    public function create(Model $model, ?array $bill = []): BillServiceInterface
     {
-        $this->billModel = $billModel;
+        $this->billModel = $model->bills()->create($bill);
+
+        return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getBill(): Bill
+    {
+        return $this->billModel;
+    }
 
     /**
      * @inheritDoc

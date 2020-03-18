@@ -10,6 +10,22 @@ use Symfony\Component\HttpFoundation\Response;
 interface InvoiceServiceInterface
 {
     /**
+     * Generate invoice referencing Eloquent model.
+     *
+     * @param Model $model        Eloquent model.
+     * @param array|null $invoice Invoice attributes.
+     * @return InvoiceServiceInterface
+     */
+    public function create(Model $model, ?array $invoice = []): InvoiceServiceInterface;
+
+    /**
+     * Get invoice model.
+     *
+     * @return Invoice
+     */
+    public function getInvoice(): Invoice;
+
+    /**
      * Set reference invoice line model.
      *
      * @param Model $model Eloquent model.

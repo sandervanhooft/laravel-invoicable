@@ -5,8 +5,8 @@ namespace NeptuneSoftware\Invoicable\Feature;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use NeptuneSoftware\Invoicable\AbstractTestCase;
 use NeptuneSoftware\Invoicable\CustomerTestModel;
+use NeptuneSoftware\Invoicable\Interfaces\InvoiceServiceInterface;
 use NeptuneSoftware\Invoicable\ProductTestModel;
-use NeptuneSoftware\Invoicable\Services\InvoiceService;
 
 class InvoiceTest extends AbstractTestCase
 {
@@ -23,11 +23,10 @@ class InvoiceTest extends AbstractTestCase
         parent::setUp();
         $this->customerModel = new CustomerTestModel();
         $this->customerModel->save();
-        $this->invoice = $this->customerModel->invoices()->create([])->fresh();
         $this->productModel = new ProductTestModel();
         $this->productModel->save();
-
-        $this->service = new InvoiceService($this->invoice);
+        $this->service = $this->app->make(InvoiceServiceInterface::class);
+        $this->invoice = $this->service->create($this->customerModel)->getInvoice()->fresh();
     }
 
 
@@ -44,7 +43,7 @@ class InvoiceTest extends AbstractTestCase
     /** @test */
     public function canAddAmountExclTaxToInvoice()
     {
-        $this->invoice = $this->customerModel->invoices()->create([])->fresh();
+        $this->invoice = $this->service->create($this->customerModel)->getInvoice();
 
         $invoice = $this->service->setReference($this->productModel)->addAmountExclTax(100, 'Some description', 0.21);
         $invoice = $this->service->setReference($this->productModel)->addAmountExclTax(100, 'Some description', 0.21);
@@ -56,7 +55,7 @@ class InvoiceTest extends AbstractTestCase
     /** @test */
     public function canAddAmountInclTaxToInvoice()
     {
-        $this->invoice = $this->customerModel->invoices()->create([])->fresh();
+        $this->invoice = $this->service->create($this->customerModel)->getInvoice();
 
         $invoice = $this->service->setReference($this->productModel)->addAmountInclTax(121, 'Some description', 0.21);
         $invoice = $this->service->setReference($this->productModel)->addAmountInclTax(121, 'Some description', 0.21);
@@ -68,7 +67,7 @@ class InvoiceTest extends AbstractTestCase
     /** @test */
     public function canHandleNegativeAmounts()
     {
-        $this->invoice = $this->customerModel->invoices()->create([])->fresh();
+        $this->invoice = $this->service->create($this->customerModel)->getInvoice();
 
         $invoice = $this->service->setReference($this->productModel)
             ->addAmountInclTax(121, 'Some description', 0.21);
@@ -83,7 +82,7 @@ class InvoiceTest extends AbstractTestCase
     public function hasUniqueReference()
     {
         $references = array_map(function () {
-            return $this->customerModel->invoices()->create([])->reference;
+            return $this->service->create($this->customerModel)->getInvoice()->reference;
         }, range(1, 100));
 
         $this->assertCount(100, array_unique($references));
@@ -156,7 +155,7 @@ class InvoiceTest extends AbstractTestCase
      *
     public function ifIsFreeEqualToTrueShouldBeAmountEqualToZero()
     {
-        $this->invoice = $this->customerModel->invoices()->create([])->fresh();
+        $this->invoice = $this->service->create($this->customerModel)->getInvoice();
 
         $invoice = $this->service->setReference($this->productModel)->addAmountExclTaxWithAllValues(0, 'Some description', 0);
         $invoice = $this->service->setReference($this->productModel)->addAmountExclTaxWithAllValues(121, 'Some description', 0.21);
@@ -173,7 +172,7 @@ class InvoiceTest extends AbstractTestCase
     {
         $invoicable_id = $this->productModel->id;
         $invoicable_type = get_class($this->productModel);
-        $this->invoice = $this->customerModel->invoices()->create([])->fresh();
+        $this->invoice = $this->service->create($this->customerModel)->getInvoice();
 
         $invoice = $this->service->addAmountExclTax(0, 'Some description', $invoicable_id, $invoicable_type, 0);
         $invoice = $this->service->addAmountExclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);
@@ -190,7 +189,7 @@ class InvoiceTest extends AbstractTestCase
     {
         $invoicable_id = $this->productModel->id;
         $invoicable_type = get_class($this->productModel);
-        $this->invoice = $this->customerModel->invoices()->create([])->fresh();
+        $this->invoice = $this->service->create($this->customerModel)->getInvoice();
 
         $invoice = $this->service->addAmountExclTaxWithAllValues(
             0,
@@ -223,7 +222,7 @@ class InvoiceTest extends AbstractTestCase
     {
         $invoicable_id = $this->productModel->id;
         $invoicable_type = get_class($this->productModel);
-        $this->invoice = $this->customerModel->invoices()->create([])->fresh();
+        $this->invoice = $this->service->create($this->customerModel)->getInvoice();
 
         $invoice = $this->service->addAmountExclTax(0, 'Some description', $invoicable_id, $invoicable_type, 0);
         $invoice = $this->service->addAmountExclTax(121, 'Some description', $invoicable_id, $invoicable_type, 0.21);

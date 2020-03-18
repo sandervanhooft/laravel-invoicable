@@ -24,12 +24,21 @@ class InvoiceService implements InvoiceServiceInterface
     private $reference;
 
     /**
-     * RoleService constructor.
-     * @param Invoice $invoiceModel
+     * @inheritDoc
      */
-    public function __construct(Invoice $invoiceModel)
+    public function create(Model $model, ?array $invoice = []): InvoiceServiceInterface
     {
-        $this->invoiceModel = $invoiceModel;
+        $this->invoiceModel = $model->invoices()->create($invoice);
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getInvoice(): Invoice
+    {
+        return $this->invoiceModel;
     }
 
     /**
