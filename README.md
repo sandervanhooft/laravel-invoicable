@@ -71,9 +71,9 @@ This is what the default config file looks like:
 ``` php
 
 return [
-    'default_currency' => 'EUR',
+    'default_currency' => 'TRY',
     'default_status' => 'concept',
-    'locale' => 'nl_NL',
+    'locale' => 'tr_TR',
 ];
 ```
 
@@ -94,19 +94,21 @@ Add the invoicable trait to the Eloquent model which needs to be invoiced (typic
 
 ``` php
 use Illuminate\Database\Eloquent\Model;
-use NeptuneSoftware\Invoicable\IsInvoicable\IsInvoicableTrait;
+use NeptuneSoftware\Invoicable\IsInvoicable\InvoicableTrait;
 
 class Order extends Model
 {
-    use IsInvoicableTrait; // enables the ->invoices() Eloquent relationship
+    use InvoicableTrait; // enables the ->invoices() Eloquent relationship
 }
 ```
 
 Now you can create invoices for an Order:
 
+
 ``` php
-$order = Order::first();
-$invoice = $order->invoices()->create([]);
+$customer = Customer::first();
+$product = Product::first(); // Any model to be referenced in an invoice line
+$service = $service->create($customer); // Injected dependency 
 
 // To add a line to the invoice, use these example parameters:
 //  Amount:
@@ -114,8 +116,8 @@ $invoice = $order->invoices()->create([]);
 //      100 (€1,00) excl tax
 //  Description: 'Some description'
 //  Tax percentage: 0.21 (21%)
-$invoice = $invoice->addAmountInclTax(121, 'Some description', 0.21);
-$invoice = $invoice->addAmountExclTax(100, 'Some description', 0.21);
+$invoice = $invoice->setReference($product)->addAmountInclTax(121, 'Some description', 0.21);
+$invoice = $invoice->setReference($product)->addAmountExclTax(100, 'Some description', 0.21);
 
 // Invoice totals are now updated
 echo $invoice->total; // 242
@@ -139,10 +141,10 @@ $invoice->pdf(); // or just grab the pdf (raw bytes)
 
 // Handling discounts
 // By adding a line with a negative amount.
-$invoice = $invoice->addAmountInclTax(-121, 'A nice discount', 0.21);
+$invoice = $invoice->setReference($product)->addAmountInclTax(-121, 'A nice discount', 0.21);
 
 // Or by applying the discount and discribing the discount manually
-$invoice = $invoice->addAmountInclTax(121 * (1 - 0.30), 'Product XYZ incl 30% discount', 0.21);
+$invoice = $invoice->setReference($product)->addAmountInclTax(121 * (1 - 0.30), 'Product XYZ incl 30% discount', 0.21);
 
 // Convenience methods
 Invoice::findByReference($reference);
@@ -170,8 +172,10 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details
 If you discover any security related issues, please email info@neptunyazilim.com instead of using the issue tracker.
 
 ## Credits
-
-- [Sander van Hooft][link-author]
+- [Burak](https://github.com/ikidnapmyself)
+- [Fatih](https://github.com/kablanfatih)
+- [Uğur](https://github.com/ugurdnlr)
+- [Sander van Hooft](https://github.com/sandervanhooft)
 - [All Contributors][link-contributors]
 - Inspired by [Laravel Cashier](https://github.com/laravel/cashier)'s invoices.
 
@@ -179,13 +183,10 @@ If you discover any security related issues, please email info@neptunyazilim.com
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/sander-van-hooft/laravel-invoicable.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/neptunesoftware/laravel-invoicable/master.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/sander-van-hooft/laravel-invoicable.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/neptunesoftware/laravel-invoicable.svg
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg
+[ico-downloads]: https://img.shields.io/packagist/dt/neptunesoftware/laravel-invoicable.svg
 
-[link-packagist]: https://packagist.org/packages/sander-van-hooft/laravel-invoicable
-[link-travis]: https://travis-ci.org/neptunesoftware/laravel-invoicable
-[link-downloads]: https://packagist.org/packages/sander-van-hooft/laravel-invoicable
-[link-author]: https://github.com/neptunesoftware
+[link-packagist]: https://packagist.org/packages/neptunesoftware/laravel-invoicable
+[link-downloads]: https://packagist.org/packages/neptunesoftware/laravel-invoicable
 [link-contributors]: ../../contributors
