@@ -1,13 +1,13 @@
 <?php
 
 
-namespace NeptuneSoftware\Invoicable\Services\Interfaces;
+namespace NeptuneSoftware\Invoicable\Interfaces;
 
 use Illuminate\Database\Eloquent\Model;
-use NeptuneSoftware\Invoicable\Bill;
+use NeptuneSoftware\Invoicable\Models\Invoice;
 use Symfony\Component\HttpFoundation\Response;
 
-interface BillServiceInterface
+interface InvoiceServiceInterface
 {
     /**
      * Set reference invoice line model.
@@ -22,32 +22,32 @@ interface BillServiceInterface
      * @param Int $amount The amount in cents, excluding taxes
      * @param String $description The description
      * @param int $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
-     * @return Bill This instance after recalculation
+     * @return Invoice This instance after recalculation
      */
     public function addAmountExclTax(
         $amount,
         $description,
         $taxPercentage = 0
-    ): Bill;
+    ): Invoice;
 
     /**
      * Use this if the amount already includes tax.
      * @param Int $amount The amount in cents, including taxes
      * @param String $description The description
      * @param int $taxPercentage The tax percentage (i.e. 0.21). Defaults to 0
-     * @return Bill This instance after recalculation
+     * @return Invoice This instance after recalculation
      */
     public function addAmountInclTax(
         $amount,
         $description,
         $taxPercentage = 0
-    ): Bill;
+    ): Invoice;
 
     /**
      * Recalculates total and tax based on lines
-     * @return Bill This instance
+     * @return Invoice This instance
      */
-    public function recalculate(): Bill;
+    public function recalculate(): Invoice;
 
     /**
      * Get the View instance for the invoice.
@@ -77,16 +77,16 @@ interface BillServiceInterface
      * Find invoice model.
      *
      * @param string $reference
-     * @return Bill|null
+     * @return Invoice|null
      */
-    public static function findByReference(string $reference): ?Bill;
+    public static function findByReference(string $reference): ?Invoice;
 
     /**
      * Find or fail invoice model.
      *
      * @param string $reference
-     * @return Bill
+     * @return Invoice
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public static function findByReferenceOrFail(string $reference): Bill;
+    public static function findByReferenceOrFail(string $reference): Invoice;
 }

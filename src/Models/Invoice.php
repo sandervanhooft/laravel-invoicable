@@ -1,10 +1,11 @@
 <?php
 
-namespace NeptuneSoftware\Invoicable;
+namespace NeptuneSoftware\Invoicable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use NeptuneSoftware\Invoicable\InvoiceReferenceGenerator;
 use NeptuneSoftware\Invoicable\Scopes\InvoiceScope;
 
 class Invoice extends Model

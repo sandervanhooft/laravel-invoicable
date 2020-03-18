@@ -3,7 +3,7 @@
 namespace NeptuneSoftware\Invoicable;
 
 use GrahamCampbell\TestBench\AbstractPackageTestCase;
-use NeptuneSoftware\Invoicable\InvoicableServiceProvider;
+use NeptuneSoftware\Invoicable\Providers\InvoicableServiceProvider;
 
 class AbstractTestCase extends AbstractPackageTestCase
 {

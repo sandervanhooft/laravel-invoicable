@@ -1,6 +1,6 @@
 <?php
 
-namespace NeptuneSoftware\Invoicable;
+namespace NeptuneSoftware\Invoicable\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;

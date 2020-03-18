@@ -1,16 +1,14 @@
 <?php
-
-
 namespace NeptuneSoftware\Invoicable;
-
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use NeptuneSoftware\Invoicable\IsInvoicable\IsInvoicableTrait;
+use NeptuneSoftware\Invoicable\Traits\InvoicableTrait;
+use NeptuneSoftware\Invoicable\Traits\IsInvoicableTrait;
 
 class CustomerTestModel extends Model
 {
-    use IsInvoicableTrait;
+    use InvoicableTrait;
 
     public $incrementing = false;
 

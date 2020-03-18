@@ -54,7 +54,7 @@
         },
         "laravel": {
             "providers": [
-                "NeptuneSoftware\\Invoicable\\InvoicableServiceProvider"
+                "NeptuneSoftware\\Invoicable\\Providers\\InvoicableServiceProvider"
             ]
         }
     },

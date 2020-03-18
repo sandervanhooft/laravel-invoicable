@@ -6,10 +6,10 @@ namespace NeptuneSoftware\Invoicable\Services;
 use Dompdf\Dompdf;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\View;
-use NeptuneSoftware\Invoicable\Bill;
+use NeptuneSoftware\Invoicable\Models\Bill;
 use NeptuneSoftware\Invoicable\MoneyFormatter;
 use NeptuneSoftware\Invoicable\Scopes\InvoiceScope;
-use NeptuneSoftware\Invoicable\Services\Interfaces\BillServiceInterface;
+use NeptuneSoftware\Invoicable\Interfaces\BillServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class BillService implements BillServiceInterface

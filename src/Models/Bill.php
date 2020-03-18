@@ -1,11 +1,10 @@
 <?php
-namespace NeptuneSoftware\Invoicable;
+namespace NeptuneSoftware\Invoicable\Models;
 
-use NeptuneSoftware\Invoicable\Invoice as BaseInvoice;
 use NeptuneSoftware\Invoicable\Scopes\BillScope;
 use NeptuneSoftware\Invoicable\Scopes\InvoiceScope;
 
-class Bill extends BaseInvoice
+class Bill extends Invoice
 {
 
     protected $guarded = [];

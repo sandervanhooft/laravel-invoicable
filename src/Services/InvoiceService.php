@@ -6,9 +6,9 @@ namespace NeptuneSoftware\Invoicable\Services;
 use Dompdf\Dompdf;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\View;
-use NeptuneSoftware\Invoicable\Invoice;
+use NeptuneSoftware\Invoicable\Models\Invoice;
 use NeptuneSoftware\Invoicable\MoneyFormatter;
-use NeptuneSoftware\Invoicable\Services\Interfaces\InvoiceServiceInterface;
+use NeptuneSoftware\Invoicable\Interfaces\InvoiceServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class InvoiceService implements InvoiceServiceInterface

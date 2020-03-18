@@ -1,13 +1,24 @@
 # laravel-invoicable
 
+![PHP Composer](https://github.com/neptunesoftware/laravel-invoicable/workflows/PHP%20Composer/badge.svg)
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
+
+This package has been changed, updated and redistributed.
+To utilize original distribution, see [sandervanhooft/laravel-invoicable](https://github.com/sandervanhooft/laravel-invoicable)
+repository.
+
+**IMPORTANT**
+> This fork is going to be maintained by @neptunesoftware and 
+> it's not compatible with original repository.
 
 Easy invoice creation for Laravel. Unlike Laravel Cashier, this package is payment gateway agnostic.
 
-If you're looking for Mollie payment processing, be sure to check out [laravel-payable-redirect-mollie](https://github.com/neptunesoftware/laravel-payable-redirect-mollie).
+## What is different?
+
+In order to follow changes, see [changelog](CHANGELOG.md) file. Basically, this package will be updated and maintained
+by Neptune Software.
 
 ## Structure
 
@@ -24,7 +35,7 @@ vendor/
 Via Composer
 
 ``` bash
-$ composer require sander-van-hooft/laravel-invoicable
+$ composer require neptunesoftware/laravel-invoicable
 ```
 
 Next, you must install the service provider if you work with Laravel 5.4:
@@ -33,14 +44,14 @@ Next, you must install the service provider if you work with Laravel 5.4:
 // config/app.php
 'providers' => [
     ...
-    NeptuneSoftware\Invoicable\InvoicableServiceProvider::class,
+    NeptuneSoftware\Invoicable\Providers\InvoicableServiceProvider::class,
 ];
 ```
 
 You can publish the migration with:
 
 ``` bash
-$ php artisan vendor:publish --provider="NeptuneSoftware\Invoicable\InvoicableServiceProvider" --tag="migrations"
+$ php artisan vendor:publish --provider="NeptuneSoftware\Invoicable\Providers\InvoicableServiceProvider" --tag="migrations"
 ```
 
 After the migration has been published you can create the invoices and invoice_lines tables by running the migrations:
@@ -52,7 +63,7 @@ $ php artisan migrate
 Optionally, you can also publish the `invoicable.php` config file with:
 
 ``` bash
-$ php artisan vendor:publish --provider="NeptuneSoftware\Invoicable\InvoicableServiceProvider" --tag="config"
+$ php artisan vendor:publish --provider="NeptuneSoftware\Invoicable\Providers\InvoicableServiceProvider" --tag="config"
 ```
 
 This is what the default config file looks like:
@@ -69,7 +80,7 @@ return [
 If you'd like to override the design of the invoice blade view and pdf, publish the view:
 
 ``` bash
-$ php artisan vendor:publish --provider="NeptuneSoftware\Invoicable\InvoicableServiceProvider" --tag="views"
+$ php artisan vendor:publish --provider="NeptuneSoftware\Invoicable\Providers\InvoicableServiceProvider" --tag="views"
 ```
 
 You can now edit `receipt.blade.php` in `<project_root>/resources/views/invoicable/receipt.blade.php` to match your style.

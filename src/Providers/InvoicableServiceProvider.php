@@ -1,11 +1,13 @@
 <?php
 
-namespace NeptuneSoftware\Invoicable;
+namespace NeptuneSoftware\Invoicable\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use NeptuneSoftware\Invoicable\Models\Bill;
+use NeptuneSoftware\Invoicable\Models\Invoice;
 use NeptuneSoftware\Invoicable\Services\BillService;
-use NeptuneSoftware\Invoicable\Services\Interfaces\BillServiceInterface;
-use NeptuneSoftware\Invoicable\Services\Interfaces\InvoiceServiceInterface;
+use NeptuneSoftware\Invoicable\Interfaces\BillServiceInterface;
+use NeptuneSoftware\Invoicable\Interfaces\InvoiceServiceInterface;
 use NeptuneSoftware\Invoicable\Services\InvoiceService;
 
 class InvoicableServiceProvider extends ServiceProvider
@@ -17,7 +19,7 @@ class InvoicableServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $sourceViewsPath = __DIR__.'/../resources/views';
+        $sourceViewsPath = __DIR__ . '/../../resources/views';
         $this->loadViewsFrom($sourceViewsPath, 'invoicable');
 
         $this->publishes([
@@ -26,12 +28,12 @@ class InvoicableServiceProvider extends ServiceProvider
 
         // Publish a config file
         $this->publishes([
-            __DIR__.'/../config/invoicable.php' => config_path('invoicable.php'),
+            __DIR__ . '/../../config/invoicable.php' => config_path('invoicable.php'),
         ], 'config');
 
         // Publish migrations
          $this->publishes([
-             __DIR__.'/../database/migrations/2017_06_17_163005_create_invoices_tables.php'
+             __DIR__ . '/../../database/migrations/2017_06_17_163005_create_invoices_tables.php'
              => database_path('migrations/2017_06_17_163005_create_invoices_tables.php'),
          ], 'migrations');
 
@@ -54,6 +56,6 @@ class InvoicableServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/invoicable.php', 'invoicable');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/invoicable.php', 'invoicable');
     }
 }
