@@ -4,57 +4,49 @@ All Notable changes to `laravel-invoicable` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## v0.1.0
+## v0.1.0 - 2020-03-18
 
-## Added
+### Added
+- Bills for receiving invoices
+- Free or complimentary sale for invoice lines
+- Polymorphic customer and polymorphic product relationships
+- Service layer
 
-- 
+### Changed
+- Package name
+- File structure
+- Readme for new distribution
 
 ---
 
-# ATTENTION
+#### ATTENTION
 This repository based on
 
 To follow original repository, please see [sandervanhooft/laravel-invoicable](https://github.com/sandervanhooft/laravel-invoicable).
 
-## 1.0.8 - 2018-03-27
+Former changes (changelog of original): [CHANGELOG.md](https://github.com/sandervanhooft/laravel-invoicable/blob/master/CHANGELOG.md)
 
-### Added
-- Convenience method Invoice::findByReference($reference)
-- Convenience method Invoice::findByReferenceOrFail($reference)
-- Convenience method $invoice->invoicable() for accessing related model
+### TEMPLATE
 
-## 1.0.7 - 2018-03-26
-
-### Added
-- Now automatically registers ServiceProvider with Laravel 5.5 and up. (See issue #5)
-
-### Fixed
-- Updated author E-mail and website addresses (.com instead of .nl)
-
-## 2018-03-20
-### Fixed
-- Laravel and phpunit version bumps
-- Readme file now explains how you to (manually) apply discounts
-
-## 2017-06-21
-- First release
-
-# --- TEMPLATE BELOW ---
-
+```
 ## NEXT - YYYY-MM-DD
 
 ### Added
-- Nothing
+- for new features
+
+### Changed
+- for changes in existing functionality
 
 ### Deprecated
-- Nothing
+- for soon-to-be removed features
 
 ### Fixed
-- Nothing
+- for any bug fixes
 
 ### Removed
-- Nothing
+- for now removed features
 
 ### Security
-- Nothing
+- in case of vulnerabilities
+
+```
