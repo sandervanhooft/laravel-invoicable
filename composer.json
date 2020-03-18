@@ -15,10 +15,19 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Sander van Hooft",
-            "email": "info@neptunyazilim.com",
-            "homepage": "http://www.neptunyazilim.com",
-            "role": "Developer"
+            "name": "Burak <ikidnapmyself>",
+            "email": "burak@myself.com",
+            "homepage": "https://github.com/ikidnapmyself"
+        },
+        {
+            "name": "Fatih <kablanfatih>",
+            "email": "kablanfatih34@gmail.com",
+            "homepage": "https://github.com/kablanfatih"
+        },
+        {
+            "name": "Ugur <ugurdnlr>",
+            "email": "ugurdinler0@gmail.com",
+            "homepage": "https://github.com/ugurdnlr"
         }
     ],
     "require": {
