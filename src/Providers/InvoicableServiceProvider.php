@@ -38,14 +38,10 @@ class InvoicableServiceProvider extends ServiceProvider
          ], 'migrations');
 
         $this->app->bind(InvoiceServiceInterface::class, function ($app) {
-            return new InvoiceService(
-                $app->make(Invoice::class)
-            );
+            return new InvoiceService();
         });
         $this->app->bind(BillServiceInterface::class, function ($app) {
-            return new BillService(
-                $app->make(Bill::class)
-            );
+            return new BillService();
         });
     }
 
