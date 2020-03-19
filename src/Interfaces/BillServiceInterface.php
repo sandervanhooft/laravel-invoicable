@@ -93,7 +93,7 @@ interface BillServiceInterface
      * @param string $reference
      * @return Bill|null
      */
-    public static function findByReference(string $reference): ?Bill;
+    public function findByReference(string $reference): ?Bill;
 
     /**
      * Find or fail invoice model.
@@ -102,5 +102,5 @@ interface BillServiceInterface
      * @return Bill
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public static function findByReferenceOrFail(string $reference): Bill;
+    public function findByReferenceOrFail(string $reference): Bill;
 }

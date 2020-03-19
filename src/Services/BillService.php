@@ -155,7 +155,7 @@ class BillService implements BillServiceInterface
     /**
      * @inheritDoc
      */
-    public static function findByReference(string $reference): ?Bill
+    public function findByReference(string $reference): ?Bill
     {
         return Bill::where('reference', $reference)->withoutGlobalScope(InvoiceScope::class)->first();
     }
@@ -163,7 +163,7 @@ class BillService implements BillServiceInterface
     /**
      * @inheritDoc
      */
-    public static function findByReferenceOrFail(string $reference): Bill
+    public function findByReferenceOrFail(string $reference): Bill
     {
         return Bill::where('reference', $reference)->withoutGlobalScope(InvoiceScope::class)->firstOrFail();
     }

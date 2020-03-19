@@ -154,7 +154,7 @@ class InvoiceService implements InvoiceServiceInterface
     /**
      * @inheritDoc
      */
-    public static function findByReference(string $reference): ?Invoice
+    public function findByReference(string $reference): ?Invoice
     {
         return Invoice::where('reference', $reference)->first();
     }
@@ -162,7 +162,7 @@ class InvoiceService implements InvoiceServiceInterface
     /**
      * @inheritDoc
      */
-    public static function findByReferenceOrFail(string $reference): Invoice
+    public function findByReferenceOrFail(string $reference): Invoice
     {
         return Invoice::where('reference', $reference)->firstOrFail();
     }

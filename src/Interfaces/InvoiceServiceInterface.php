@@ -95,7 +95,7 @@ interface InvoiceServiceInterface
      * @param string $reference
      * @return Invoice|null
      */
-    public static function findByReference(string $reference): ?Invoice;
+    public function findByReference(string $reference): ?Invoice;
 
     /**
      * Find or fail invoice model.
@@ -104,5 +104,5 @@ interface InvoiceServiceInterface
      * @return Invoice
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public static function findByReferenceOrFail(string $reference): Invoice;
+    public function findByReferenceOrFail(string $reference): Invoice;
 }
