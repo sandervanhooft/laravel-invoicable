@@ -27,16 +27,6 @@ Via Composer
 $ composer require sander-van-hooft/laravel-invoicable
 ```
 
-Next, you must install the service provider if you work with Laravel 5.4:
-
-``` php
-// config/app.php
-'providers' => [
-    ...
-    SanderVanHooft\Invoicable\InvoicableServiceProvider::class,
-];
-```
-
 You can publish the migration with:
 
 ``` bash
