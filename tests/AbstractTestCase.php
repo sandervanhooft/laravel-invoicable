@@ -3,7 +3,6 @@
 namespace SanderVanHooft\Invoicable;
 
 use GrahamCampbell\TestBench\AbstractPackageTestCase;
-use SanderVanHooft\Invoicable\InvoicableServiceProvider;
 
 class AbstractTestCase extends AbstractPackageTestCase
 {
@@ -22,12 +21,9 @@ class AbstractTestCase extends AbstractPackageTestCase
 
     /**
      * Get the service provider class.
-     *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     *
      * @return string
      */
-    protected function getServiceProviderClass($app)
+    protected function getServiceProviderClass()
     {
         return InvoicableServiceProvider::class;
     }

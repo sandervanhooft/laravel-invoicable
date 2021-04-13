@@ -4,8 +4,6 @@ namespace SanderVanHooft\Invoicable\Unit;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use SanderVanHooft\Invoicable\AbstractTestCase;
 use SanderVanHooft\Invoicable\InvoiceReferenceGenerator;
 
@@ -36,7 +34,7 @@ class InvoiceReferenceTest extends AbstractTestCase
         $this->assertEquals($list[1], $this->date->month);
         $this->assertEquals($list[2], $this->date->day);
         $this->assertEquals(6, strlen($list[3]));
-        $this->assertRegExp('/^[A-Z0-9]+$/', $list[3]);
+        $this->assertMatchesRegularExpression('/^[A-Z0-9]+$/', $list[3]);
     }
 
     /** @test */

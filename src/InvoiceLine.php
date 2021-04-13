@@ -3,7 +3,6 @@
 namespace SanderVanHooft\Invoicable;
 
 use Illuminate\Database\Eloquent\Model;
-use SanderVanHooft\Invoicable\Invoice;
 
 class InvoiceLine extends Model
 {

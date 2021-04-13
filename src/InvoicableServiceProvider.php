@@ -26,7 +26,7 @@ class InvoicableServiceProvider extends ServiceProvider
         ], 'config');
 
         // Publish migrations
-         $this->publishes([
+        $this->publishes([
              __DIR__.'/../database/migrations/2017_06_17_163005_create_invoices_tables.php'
              => database_path('migrations/2017_06_17_163005_create_invoices_tables.php'),
          ], 'migrations');

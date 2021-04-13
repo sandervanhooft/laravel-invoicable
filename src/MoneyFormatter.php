@@ -4,7 +4,6 @@ namespace SanderVanHooft\Invoicable;
 
 class MoneyFormatter
 {
-
     /**
      * The current currency.
      *
@@ -33,6 +32,7 @@ class MoneyFormatter
     public function format($amount)
     {
         $formatter = new \NumberFormatter($this->locale, \NumberFormatter::CURRENCY);
+
         return (string) $formatter->formatCurrency($amount / 100, $this->currency);
     }
 
@@ -64,11 +64,11 @@ class MoneyFormatter
         return (string) $this->currency;
     }
 
-     /**
-     * Sets the current currency
-     * @param $currency The currency (i.e. 'EUR')
-     * @return Void
-     */
+    /**
+    * Sets the current currency
+    * @param $currency The currency (i.e. 'EUR')
+    * @return Void
+    */
     public function setCurrency(string $currency)
     {
         $this->currency = $currency;
