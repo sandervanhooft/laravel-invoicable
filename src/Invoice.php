@@ -35,6 +35,7 @@ class Invoice extends Model
             'tax' => $tax,
             'tax_percentage' => $taxPercentage,
         ]);
+
         return $this->recalculate();
     }
 
@@ -53,6 +54,7 @@ class Invoice extends Model
             'tax' => $amount - $amount / (1 + $taxPercentage),
             'tax_percentage' => $taxPercentage,
         ]);
+
         return $this->recalculate();
     }
 
@@ -65,6 +67,7 @@ class Invoice extends Model
         $this->total = $this->lines()->sum('amount');
         $this->tax = $this->lines()->sum('tax');
         $this->save();
+
         return $this;
     }
 
@@ -104,6 +107,7 @@ class Invoice extends Model
         $dompdf = new Dompdf;
         $dompdf->loadHtml($this->view($data)->render());
         $dompdf->render();
+
         return $dompdf->output();
     }
 

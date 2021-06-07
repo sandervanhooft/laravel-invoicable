@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
+[![Github Actions][ico-tests]][link-tests]
 [![Total Downloads][ico-downloads]][link-downloads]
 
 Easy invoice creation for Laravel. Unlike Laravel Cashier, this package is payment gateway agnostic.
@@ -25,16 +25,6 @@ Via Composer
 
 ``` bash
 $ composer require sander-van-hooft/laravel-invoicable
-```
-
-Next, you must install the service provider if you work with Laravel 5.4:
-
-``` php
-// config/app.php
-'providers' => [
-    ...
-    SanderVanHooft\Invoicable\InvoicableServiceProvider::class,
-];
 ```
 
 You can publish the migration with:
@@ -170,11 +160,11 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/sander-van-hooft/laravel-invoicable.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/sandervanhooft/laravel-invoicable/master.svg?style=flat-square
+[ico-tests]: https://github.com/sandervanhooft/laravel-invoicable/workflows/tests/badge.svg
 [ico-downloads]: https://img.shields.io/packagist/dt/sander-van-hooft/laravel-invoicable.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/sander-van-hooft/laravel-invoicable
-[link-travis]: https://travis-ci.org/sandervanhooft/laravel-invoicable
+[link-tests]: https://github.com/sandervanhooft/laravel-invoicable/actions
 [link-downloads]: https://packagist.org/packages/sander-van-hooft/laravel-invoicable
 [link-author]: https://github.com/sandervanhooft
 [link-contributors]: ../../contributors
